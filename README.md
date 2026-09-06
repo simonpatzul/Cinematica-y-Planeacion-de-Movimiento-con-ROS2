@@ -1,1 +1,1 @@
-# Cinem-tica-y-Planeaci-n-de-Movimiento-con-ROS2
+# Cinematica-y-Planeacion-de-Movimiento-con-ROS2
