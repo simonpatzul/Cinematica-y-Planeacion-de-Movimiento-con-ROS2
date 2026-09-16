@@ -1,57 +1,52 @@
-# Taller UR5 con ROS 2 Jazzy, MoveIt 2 y RViz 2
+# Taller UR5 — ROS 2 Jazzy + MoveIt 2
 
-Este workspace contiene los tres paquetes fuente propios, el modelo cinemático
-DH para MATLAB y una carpeta destinada a guardar los resultados del taller.
-No incluye `build/`, `install/`, `log/` ni el repositorio oficial completo usado
-como referencia.
+Workspace del taller de **Cinemática y Planeación de Movimiento** para un UR5 clásico. Incluye descripción URDF/Xacro, configuración propia de MoveIt 2, PlanningScene, comparación RRTConnect/RRT*, ciclo pick-and-place, perfiles cúbico/quíntico, validación DH e informe de Jacobianos.
 
-## Estructura
+## Requisitos
 
-```text
-ur5_taller_ws/
-├── README.md
-├── matlab/
-│   └── UR5_DH_HOME.m
-├── src/
-│   ├── ur5_description/
-│   ├── ur5_moveit_config/
-│   └── ur5_pick_place/
-└── resultados/
-```
+- Ubuntu con ROS 2 Jazzy.
+- MoveIt 2, RViz 2, ros2_control, `tf2_tools`, `xacro` y `check_urdf`.
+- Python 3 con NumPy y Matplotlib.
+- MATLAB sólo para la comprobación DH académica; `matlab/UR5_DH_VALIDACION.m` no necesita Robotics System Toolbox.
 
-## Instalación y compilación
-
-Extraiga el ZIP de modo que los paquetes queden dentro de `ur5_taller_ws/src/`.
-Después ejecute:
+## Compilación
 
 ```bash
-cd ~/ur5_taller_ws
+cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
 source /opt/ros/jazzy/setup.bash
+rosdep install --from-paths src --ignore-src -r -y
+rm -rf build install log
 colcon build --symlink-install
-source ~/ur5_taller_ws/install/setup.bash
+source install/setup.bash
 ```
 
-## Ejecución
+## Ejecución rápida
 
-Terminal 1:
+**Terminal 1:**
 
 ```bash
+cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
 source /opt/ros/jazzy/setup.bash
-source ~/ur5_taller_ws/install/setup.bash
+source install/setup.bash
 QT_QPA_PLATFORM=xcb ros2 launch ur5_moveit_config demo.launch.py
 ```
 
-Terminal 2, después de que RViz termine de cargar:
+Espere a que `move_group`, `ur5_arm_controller` y `joint_state_broadcaster` estén activos antes de ejecutar movimientos.
+
+**Terminal 2 — ciclo completo:**
 
 ```bash
+cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
 source /opt/ros/jazzy/setup.bash
-source ~/ur5_taller_ws/install/setup.bash
+source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
-ros2 run ur5_pick_place move_named_state --ros-args -p robot_description_kinematics.ur_manipulator.kinematics_solver:=kdl_kinematics_plugin/KDLKinematicsPlugin -p target:=HOME -p execute:=true
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p robot_description_kinematics.ur_manipulator.kinematics_solver:=kdl_kinematics_plugin/KDLKinematicsPlugin
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL \
+  2>&1 | tee resultados/ciclo_terminal_final.txt
 ```
 
-Abra `matlab/UR5_DH_HOME.m` en MATLAB para calcular la cinemática directa de
-la configuración HOME y comparar el esqueleto DH con el modelo 3D del UR5.
-Guarde capturas, gráficas y demás evidencias en `resultados/`.
+## Documentación y resultados
+
+La explicación completa, comandos por numeral, evidencia, solución de errores y guion de sustentación están en [GUIA_COMPLETA_TALLER.md](GUIA_COMPLETA_TALLER.md).
+
+Los resultados se guardan en `resultados/`. La carpeta `resultados/historico_ejecucion_2026-09-15/` contiene evidencia real anterior a la última corrección y está marcada como histórica para no confundirla con resultados finales.

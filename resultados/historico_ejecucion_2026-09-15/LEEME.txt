@@ -1,0 +1,18 @@
+EVIDENCIA HISTORICA REAL - 15 de septiembre de 2026
+
+Estos archivos provienen de una ejecucion real en el equipo del usuario con ROS 2 Jazzy/MoveIt 2,
+ANTES de la revision final incluida en este ZIP. Se conservan para no perder evidencia ni inventar
+resultados.
+
+Hechos observados en esa ejecucion:
+- ur5_pick_place compilo e instalo correctamente.
+- 4A genero 20 candidatos (10 RRTConnect + 10 RRTstar), todos validos.
+- El ganador de esa ejecucion fue RRTConnectkConfigDefault, intento 9,
+  longitud articular 5.40890973 rad.
+- El ganador 4A se ejecuto correctamente.
+- 4B se detuvo de forma segura porque computeCartesianPath solo alcanzo 51.4 %.
+
+La revision final cambia la PlanningScene y la parametrizacion/seleccion de perfiles para corregir
+ese bloqueo. Por tanto, estos CSV/TXT NO deben presentarse como resultados de la version final.
+La version final debe compilarse y ejecutarse de nuevo en /home/simon/ur5_taller_ws para regenerar
+resultados actuales.

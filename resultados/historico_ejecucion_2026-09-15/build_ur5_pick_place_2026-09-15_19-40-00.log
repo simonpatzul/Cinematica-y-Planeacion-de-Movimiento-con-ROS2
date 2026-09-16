@@ -1,0 +1,74 @@
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 28.1.21 (/opt/ros/jazzy/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.4 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found geometry_msgs: 5.3.8 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+-- Found moveit_msgs: 2.6.0 (/opt/ros/jazzy/share/moveit_msgs/cmake)
+-- Found moveit_core: 2.12.4 (/opt/ros/jazzy/share/moveit_core/cmake)
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found version "1.83.0") found components: chrono date_time filesystem iostreams program_options regex serialization system thread 
+-- Found parameter_traits: 0.7.3 (/opt/ros/jazzy/share/parameter_traits/cmake)
+CMake Deprecation Warning at /opt/ros/jazzy/share/tl_expected/cmake/tl_expectedConfig.cmake:37 (message):
+  Package 'tl_expected' is deprecated (This package will be removed in ROS 2
+  Lyrical Luth.
+
+        Use tl/expected.hpp from libexpected-dev,
+        or rcpputils/tl_expected/expected.hpp if the system header is not available)
+Call Stack (most recent call first):
+  /opt/ros/jazzy/share/parameter_traits/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/parameter_traits/cmake/parameter_traitsConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_library-extras.cmake:30 (find_package)
+  /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_libraryConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/moveit_core/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/moveit_core/cmake/moveit_coreConfig.cmake:41 (include)
+  CMakeLists.txt:11 (find_package)
+
+
+-- Found rclcpp_lifecycle: 28.1.21 (/opt/ros/jazzy/share/rclcpp_lifecycle/cmake)
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found moveit_ros_planning_interface: 2.12.4 (/opt/ros/jazzy/share/moveit_ros_planning_interface/cmake)
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found version "1.83.0") found components: date_time filesystem program_options system thread 
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found version "1.83.0") found components: system filesystem date_time program_options thread chrono 
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found version "1.83.0") found components: thread system filesystem regex date_time program_options 
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found version "1.83.0") found components: system filesystem date_time program_options thread 
+-- Configuring done (3.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: /home/simon/ur5_taller_ws/build/ur5_pick_place
+[ 10%] Linking CXX executable planning_scene_setup
+[ 20%] Built target planning_scene_setup
+[ 30%] Linking CXX executable kinematics_report
+[ 40%] Built target kinematics_report
+[ 50%] Linking CXX executable pick_place_sequence
+[ 60%] Built target pick_place_sequence
+[ 70%] Linking CXX executable move_named_state
+[ 80%] Built target move_named_state
+[ 90%] Linking CXX executable plan_pre_pick
+[100%] Built target plan_pre_pick
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/lib/ur5_pick_place/planning_scene_setup
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/lib/ur5_pick_place/plan_pre_pick
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/lib/ur5_pick_place/move_named_state
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/lib/ur5_pick_place/pick_place_sequence
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/lib/ur5_pick_place/kinematics_report
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/lib/ur5_pick_place/trajectory_profiles.py
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ament_index/resource_index/package_run_dependencies/ur5_pick_place
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ament_index/resource_index/parent_prefix_path/ur5_pick_place
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/environment/ament_prefix_path.sh
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/environment/ament_prefix_path.dsv
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/environment/path.sh
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/environment/path.dsv
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/local_setup.bash
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/local_setup.sh
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/local_setup.zsh
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/local_setup.dsv
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/package.dsv
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ament_index/resource_index/packages/ur5_pick_place
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/cmake/ur5_pick_placeConfig.cmake
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/cmake/ur5_pick_placeConfig-version.cmake
+-- Symlinking: /home/simon/ur5_taller_ws/install/ur5_pick_place/share/ur5_pick_place/package.xml

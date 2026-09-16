@@ -1,0 +1,243 @@
+[37;1m2026-09-16 09:25:19.502 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7002: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[INFO] [1789568720.086265619] [moveit_1503898063.moveit.ros.rdf_loader]: Loaded robot model in 0.561047 seconds
+[INFO] [1789568720.086500909] [moveit_1503898063.moveit.core.robot_model]: Loading robot model 'ur5'...
+[INFO] [1789568720.086544621] [moveit_1503898063.moveit.core.robot_model]: No root/virtual joint specified in SRDF. Assuming fixed joint
+[INFO] [1789568720.115248588] [moveit_1503898063.moveit.kinematics.kdl_kinematics_plugin]: Joint weights for group 'ur_manipulator': 1 1 1 1 1 1
+[INFO] [1789568720.145848845] [moveit_1503898063.moveit.ros.move_group_interface]: Ready to take commands for planning group ur_manipulator.
+[INFO] [1789568720.576744750] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568720.577481119] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568720.638641496] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568720.639392803] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0479154 seconds
+[INFO] [1789568720.640091581] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request accepted
+[INFO] [1789568723.527132211] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request success!
+[INFO] [1789568723.529290130] [moveit_1503898063.moveit.ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[INFO] [1789568723.537355737] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.538153510] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.591779556] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.591924768] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0406922 seconds
+[INFO] [1789568723.592431867] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.593012845] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.637853416] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.638768439] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0378338 seconds
+[INFO] [1789568723.639123954] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.639619922] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.708547188] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.708704092] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.057865 seconds
+[INFO] [1789568723.709083031] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.709742907] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.752569498] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.753046832] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0317284 seconds
+[INFO] [1789568723.753412536] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.753894649] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.784776843] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.785486672] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.024163 seconds
+[INFO] [1789568723.785849331] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.786455425] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.832909216] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.833935998] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0318399 seconds
+[INFO] [1789568723.834654633] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.835332782] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.878926149] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.879756744] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0381522 seconds
+[INFO] [1789568723.880171580] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.880739704] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.927774482] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.928434057] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.037201 seconds
+[INFO] [1789568723.928689395] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.929361062] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568723.992175376] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568723.992616932] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0511912 seconds
+[INFO] [1789568723.993478445] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568723.994197801] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568724.035371088] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568724.036245205] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0343156 seconds
+[INFO] [1789568724.036721626] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568724.037220640] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568732.066232074] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568732.066710159] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.01523 seconds
+[INFO] [1789568732.067153128] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568732.067652443] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568740.082382473] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568740.083281325] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00055 seconds
+[INFO] [1789568740.083754040] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568740.084678460] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568748.148522298] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568748.148578874] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.05611 seconds
+[INFO] [1789568748.149269527] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568748.150122233] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568756.161112661] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568756.161461143] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00016 seconds
+[INFO] [1789568756.161986687] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568756.162727914] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568764.174045905] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568764.175153859] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00196 seconds
+[INFO] [1789568764.175734015] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568764.176409389] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568772.254999563] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568772.255986671] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.06384 seconds
+[INFO] [1789568772.256565254] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568772.257335666] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568780.280721518] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568780.280950396] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00776 seconds
+[INFO] [1789568780.281368519] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568780.282109747] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568788.291818521] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568788.291871921] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00016 seconds
+[INFO] [1789568788.292390521] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568788.293008719] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568796.307229358] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568796.307406310] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00545 seconds
+[INFO] [1789568796.307918509] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568796.308789920] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568804.324837257] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568804.325468729] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00397 seconds
+[INFO] [1789568804.326662934] [ur5_pick_place_sequence]: 4A_home_pre_pick: planeador/intento valida longitud puntos duracion t_plan suavidad
+[INFO] [1789568804.326739818] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/01 SI 1.30008 30 2.816 0.055 5.56283
+[INFO] [1789568804.326779553] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/02 SI 1.30005 30 2.816 0.047 5.56336
+[INFO] [1789568804.326824527] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/03 SI 1.30001 30 2.816 0.070 5.56304
+[INFO] [1789568804.326854182] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/04 SI 1.29997 30 2.816 0.044 5.56342
+[INFO] [1789568804.326900519] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/05 SI 1.30007 30 2.816 0.032 5.56284
+[INFO] [1789568804.326931046] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/06 SI 1.30002 30 2.816 0.048 5.56324
+[INFO] [1789568804.326962425] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/07 SI 1.30002 30 2.816 0.045 5.56269
+[INFO] [1789568804.326991469] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/08 SI 1.30010 30 2.816 0.048 5.56321
+[INFO] [1789568804.327022277] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/09 SI 1.30008 30 2.816 0.064 5.56275
+[INFO] [1789568804.327051401] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/10 SI 1.30014 30 2.816 0.043 5.56303
+[INFO] [1789568804.327089282] [ur5_pick_place_sequence]: RRTstarkConfigDefault/01 SI 1.29999 30 2.816 8.030 5.56347
+[INFO] [1789568804.327118617] [ur5_pick_place_sequence]: RRTstarkConfigDefault/02 SI 1.29996 30 2.816 8.016 5.56320
+[INFO] [1789568804.327146469] [ur5_pick_place_sequence]: RRTstarkConfigDefault/03 SI 1.29996 30 2.816 8.065 5.56292
+[INFO] [1789568804.327176365] [ur5_pick_place_sequence]: RRTstarkConfigDefault/04 SI 1.29998 30 2.816 8.012 5.56292
+[INFO] [1789568804.327232170] [ur5_pick_place_sequence]: RRTstarkConfigDefault/05 SI 1.29995 30 2.816 8.013 5.56312
+[INFO] [1789568804.327266043] [ur5_pick_place_sequence]: RRTstarkConfigDefault/06 SI 1.30000 30 2.816 8.081 5.56260
+[INFO] [1789568804.327295458] [ur5_pick_place_sequence]: RRTstarkConfigDefault/07 SI 1.29996 30 2.816 8.025 5.56306
+[INFO] [1789568804.327323541] [ur5_pick_place_sequence]: RRTstarkConfigDefault/08 SI 1.30003 30 2.816 8.011 5.56345
+[INFO] [1789568804.327352054] [ur5_pick_place_sequence]: RRTstarkConfigDefault/09 SI 1.29998 30 2.816 8.015 5.56333
+[INFO] [1789568804.327381570] [ur5_pick_place_sequence]: RRTstarkConfigDefault/10 SI 1.30000 30 2.816 8.018 5.56346
+[INFO] [1789568804.327410844] [ur5_pick_place_sequence]: 4A_home_pre_pick: gana RRTstarkConfigDefault intento 5, longitud 1.29995 rad
+[INFO] [1789568804.328166379] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request accepted
+[INFO] [1789568807.217403303] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request success!
+[INFO] [1789568807.294635530] [ur5_pick_place_sequence]: 4B_pre_pick_pick/cubico: T=2.569 s suavidad=7.478515 vmax_tcp=0.1919 amax_tcp=0.3047, viola aceleracion TCP: 0.304687 > 0.3
+[INFO] [1789568807.294698007] [ur5_pick_place_sequence]: 4B_pre_pick_pick/quintico: T=3.094 s suavidad=4.889968 vmax_tcp=0.1990 amax_tcp=0.1990, valida: limites, meta y colisiones comprobados
+[INFO] [1789568807.294879386] [ur5_pick_place_sequence]: 4B_pre_pick_pick: se ejecuta solo el perfil quintico
+[INFO] [1789568807.295550292] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request accepted
+[INFO] [1789568810.427413558] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request success!
+[INFO] [1789568810.427923323] [ur5_pick_place_sequence]: 4B: pieza adjuntada; perfil seleccionado=quintico
+[INFO] [1789568810.437793069] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.438816725] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.538753495] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568810.539479694] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0663195 seconds
+[INFO] [1789568810.540368168] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.541059281] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.619080376] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568810.619478020] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0604643 seconds
+[INFO] [1789568810.620265825] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.621112730] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.688718427] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568810.689332006] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568810.689654730] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.690430131] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.749366579] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568810.749430990] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0421697 seconds
+[INFO] [1789568810.749877676] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.750470716] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.821779595] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568810.822143877] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0450925 seconds
+[INFO] [1789568810.822750383] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.823307576] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.875955852] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568810.876988716] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0395158 seconds
+[INFO] [1789568810.877353028] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.877969372] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568810.949867093] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568810.950810128] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0511276 seconds
+[INFO] [1789568810.951556145] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568810.952117235] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568811.035644156] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568811.035906507] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0612145 seconds
+[INFO] [1789568811.036609193] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568811.037083972] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568811.130179505] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568811.130680403] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.0683405 seconds
+[INFO] [1789568811.131523892] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568811.132196140] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568811.203609325] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568811.204275422] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 0.054863 seconds
+[INFO] [1789568811.204699456] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568811.205362717] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568819.209220594] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568819.209696465] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568819.209955239] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568819.210659157] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568827.246518111] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568827.247413998] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568827.247722506] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568827.248601992] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568835.278682448] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789568835.279475974] [moveit_1503898063.moveit.ros.move_group_interface]: time taken to generate plan: 8.00983 seconds
+[INFO] [1789568835.280389133] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568835.282112930] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568843.373985112] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568843.374040165] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568843.374224630] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568843.374856032] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568851.380027691] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568851.381060875] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568851.381285426] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568851.381859300] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568859.406596410] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568859.407019402] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568859.407190652] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568859.409042639] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568867.434023326] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568867.434162687] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568867.434536617] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568867.435536799] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568875.467999341] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568875.468187463] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568875.468469531] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568875.469093500] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568883.479144802] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568883.479450314] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568883.479736770] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789568883.480461267] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789568891.489967343] [moveit_1503898063.moveit.ros.move_group_interface]: Planning request aborted
+[ERROR] [1789568891.490814599] [moveit_1503898063.moveit.ros.move_group_interface]: MoveGroupInterface::plan() failed or timeout reached
+[INFO] [1789568891.491238663] [ur5_pick_place_sequence]: 4C_pick_pre_place: planeador/intento valida longitud puntos duracion t_plan suavidad
+[INFO] [1789568891.491274099] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/01 SI 6.55999 106 10.450 0.102 11.69573
+[INFO] [1789568891.491301540] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/02 SI 4.34706 80 7.814 0.079 12.35136
+[INFO] [1789568891.491316498] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/03 NO 0.00000 0 0.000 0.069 0.00000
+[WARN] [1789568891.491329252] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491337387] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/04 SI 3.75046 69 6.786 0.060 16.92285
+[INFO] [1789568891.491356543] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/05 SI 5.53259 100 9.822 0.072 10.56081
+[INFO] [1789568891.491370720] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/06 SI 3.17044 72 7.041 0.054 18.45937
+[INFO] [1789568891.491390657] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/07 SI 4.53933 82 8.093 0.074 11.96274
+[INFO] [1789568891.491403601] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/08 SI 5.52606 96 9.471 0.085 11.76155
+[INFO] [1789568891.491417317] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/09 SI 5.15595 91 8.937 0.094 11.27056
+[INFO] [1789568891.491436443] [ur5_pick_place_sequence]: RRTConnectkConfigDefault/10 SI 3.56335 79 7.737 0.073 16.50757
+[INFO] [1789568891.491449277] [ur5_pick_place_sequence]: RRTstarkConfigDefault/01 NO 0.00000 0 0.000 8.005 0.00000
+[WARN] [1789568891.491461069] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491468343] [ur5_pick_place_sequence]: RRTstarkConfigDefault/02 NO 0.00000 0 0.000 8.038 0.00000
+[WARN] [1789568891.491479884] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491495483] [ur5_pick_place_sequence]: RRTstarkConfigDefault/03 SI 2.78901 63 6.158 8.032 11.13652
+[INFO] [1789568891.491508297] [ur5_pick_place_sequence]: RRTstarkConfigDefault/04 NO 0.00000 0 0.000 8.094 0.00000
+[WARN] [1789568891.491520039] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491535248] [ur5_pick_place_sequence]: RRTstarkConfigDefault/05 NO 0.00000 0 0.000 8.007 0.00000
+[WARN] [1789568891.491546779] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491554083] [ur5_pick_place_sequence]: RRTstarkConfigDefault/06 NO 0.00000 0 0.000 8.026 0.00000
+[WARN] [1789568891.491565975] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491581725] [ur5_pick_place_sequence]: RRTstarkConfigDefault/07 NO 0.00000 0 0.000 8.027 0.00000
+[WARN] [1789568891.491593297] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491600550] [ur5_pick_place_sequence]: RRTstarkConfigDefault/08 NO 0.00000 0 0.000 8.034 0.00000
+[WARN] [1789568891.491612412] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491619606] [ur5_pick_place_sequence]: RRTstarkConfigDefault/09 NO 0.00000 0 0.000 8.011 0.00000
+[WARN] [1789568891.491639904] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491646937] [ur5_pick_place_sequence]: RRTstarkConfigDefault/10 NO 0.00000 0 0.000 8.011 0.00000
+[WARN] [1789568891.491658789] [ur5_pick_place_sequence]:   descarte: OMPL no encontro solucion
+[INFO] [1789568891.491666193] [ur5_pick_place_sequence]: 4C_pick_pre_place: gana RRTstarkConfigDefault intento 3, longitud 2.78901 rad
+[INFO] [1789568891.492488673] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request accepted
+[INFO] [1789568897.727338132] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request success!
+[INFO] [1789568897.799989006] [ur5_pick_place_sequence]: 4D_pre_place_place/cubico: T=9.951 s suavidad=0.498743 vmax_tcp=0.0496 amax_tcp=0.0203, valida: limites, meta y colisiones comprobados
+[INFO] [1789568897.800068054] [ur5_pick_place_sequence]: 4D_pre_place_place/quintico: T=9.761 s suavidad=0.491653 vmax_tcp=0.0631 amax_tcp=0.0200, valida: limites, meta y colisiones comprobados
+[INFO] [1789568897.800262157] [ur5_pick_place_sequence]: 4D_pre_place_place: se ejecuta solo el perfil quintico
+[INFO] [1789568897.800913196] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request accepted
+[INFO] [1789568907.637591154] [moveit_1503898063.moveit.ros.move_group_interface]: Execute request success!
+[INFO] [1789568907.638443440] [ur5_pick_place_sequence]: 4D: pieza liberada despues de alcanzar PLACE

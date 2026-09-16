@@ -11,7 +11,7 @@
 
 namespace
 {
-moveit_msgs::msg::CollisionObject make_box(
+moveit_msgs::msg::CollisionObject crear_caja(
   const std::string & id, const std::string & frame_id,
   const std::vector<double> & dimensions, double x, double y, double z)
 {
@@ -44,12 +44,15 @@ int main(int argc, char * argv[])
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
   moveit::planning_interface::PlanningSceneInterface planning_scene;
 
+  const std::vector<std::string> ids = {
+    "pick_surface", "place_surface", "workpiece", "obstacle"};
+
   bool clear_scene = false;
   node->get_parameter_or("clear", clear_scene, false);
   if (clear_scene) {
-    planning_scene.removeCollisionObjects({"table", "workpiece", "obstacle"});
+    planning_scene.removeCollisionObjects(ids);
     rclcpp::sleep_for(std::chrono::milliseconds(500));
-    RCLCPP_INFO(node->get_logger(), "Objetos retirados temporalmente de la PlanningScene");
+    RCLCPP_INFO(node->get_logger(), "PlanningScene limpiada");
     rclcpp::shutdown();
     return 0;
   }
@@ -57,14 +60,20 @@ int main(int argc, char * argv[])
   const std::string frame = "base_link";
   std::vector<moveit_msgs::msg::CollisionObject> objects;
 
-  // Superficie superior de la mesa: z = 0.00 m, al nivel de la base del robot.
-  objects.push_back(make_box("table", frame, {0.90, 1.20, 0.20}, 0.55, 0.0, -0.10));
+  // Dos superficies pequeñas evitan que una mesa grande bloquee el descenso
+  // cartesiano del brazo, pero mantienen superficies físicas en pick y place.
+  objects.push_back(crear_caja(
+    "pick_surface", frame, {0.34, 0.34, 0.10}, 0.65, -0.30, -0.05));
+  objects.push_back(crear_caja(
+    "place_surface", frame, {0.34, 0.34, 0.10}, 0.65, 0.30, -0.05));
 
-  // Pieza inicial sobre la mesa, en el lado pick (y negativo).
-  objects.push_back(make_box("workpiece", frame, {0.05, 0.05, 0.07}, 0.65, -0.30, 0.040));
+  // Pieza inicial sobre la superficie de pick.
+  objects.push_back(crear_caja(
+    "workpiece", frame, {0.05, 0.05, 0.07}, 0.65, -0.30, 0.040));
 
-  // Obstáculo entre pick y place. Se eleva desde la mesa hasta z = 0.40 m.
-  objects.push_back(make_box("obstacle", frame, {0.16, 0.08, 0.40}, 0.65, 0.0, 0.20));
+  // Obstáculo entre pick y place. Obliga a 4A/4C a evitar la ruta directa baja.
+  objects.push_back(crear_caja(
+    "obstacle", frame, {0.16, 0.10, 0.40}, 0.65, 0.0, 0.20));
 
   if (!planning_scene.applyCollisionObjects(objects)) {
     RCLCPP_ERROR(node->get_logger(), "No fue posible aplicar los objetos a la PlanningScene");
@@ -74,7 +83,8 @@ int main(int argc, char * argv[])
 
   RCLCPP_INFO(
     node->get_logger(),
-    "Escena aplicada: table, workpiece y obstacle en el marco %s", frame.c_str());
+    "Escena aplicada: pick_surface, place_surface, workpiece y obstacle en %s",
+    frame.c_str());
 
   rclcpp::sleep_for(std::chrono::milliseconds(500));
   rclcpp::shutdown();

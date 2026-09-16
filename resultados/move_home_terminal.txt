@@ -1,0 +1,14 @@
+[37;1m2026-09-16 08:44:43.896 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7002: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[INFO] [1789566284.220293033] [moveit_3573082771.moveit.ros.rdf_loader]: Loaded robot model in 0.298505 seconds
+[INFO] [1789566284.220579093] [moveit_3573082771.moveit.core.robot_model]: Loading robot model 'ur5'...
+[INFO] [1789566284.220658834] [moveit_3573082771.moveit.core.robot_model]: No root/virtual joint specified in SRDF. Assuming fixed joint
+[WARN] [1789566284.244733556] [moveit_3573082771.moveit.ros.robot_model_loader]: No kinematics plugins defined. Fill and load kinematics.yaml!
+[INFO] [1789566284.392872301] [moveit_3573082771.moveit.ros.move_group_interface]: Ready to take commands for planning group ur_manipulator.
+[INFO] [1789566284.393194289] [moveit_3573082771.moveit.ros.move_group_interface]: MoveGroup action client/server ready
+[INFO] [1789566284.394852940] [moveit_3573082771.moveit.ros.move_group_interface]: Planning request accepted
+[INFO] [1789566284.450485147] [moveit_3573082771.moveit.ros.move_group_interface]: Planning request complete!
+[INFO] [1789566284.451352354] [moveit_3573082771.moveit.ros.move_group_interface]: time taken to generate plan: 0.0455897 seconds
+[INFO] [1789566284.451418118] [ur5_move_named_state]: Plan hacia HOME válido: 1 puntos.
+[INFO] [1789566284.452097039] [moveit_3573082771.moveit.ros.move_group_interface]: Execute request accepted
+[INFO] [1789566284.541406192] [moveit_3573082771.moveit.ros.move_group_interface]: Execute request success!
+[INFO] [1789566284.542442348] [ur5_move_named_state]: HOME alcanzado correctamente.

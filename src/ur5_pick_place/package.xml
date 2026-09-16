@@ -3,7 +3,7 @@
   <name>ur5_pick_place</name>
   <version>0.0.1</version>
   <description>Escena y movimientos pick-and-place para el taller del UR5.</description>
-  <maintainer email="simon@todo.todo">simon</maintainer>
+  <maintainer email="Simon.patino@eia.edu.co">Simon Patino</maintainer>
   <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -11,8 +11,14 @@
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
   <depend>moveit_msgs</depend>
+  <depend>moveit_core</depend>
   <depend>moveit_ros_planning_interface</depend>
   <depend>shape_msgs</depend>
+  <depend>tf2_eigen</depend>
+  <depend>trajectory_msgs</depend>
+
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

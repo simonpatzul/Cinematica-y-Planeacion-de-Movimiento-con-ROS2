@@ -1,0 +1,5 @@
+Resultados escritos en: /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados
+4B_rojo  cubico   T=2.572s vmax=0.1925m/s amax=0.2994m/s² var_a=1.1976 cumple=True
+4B_rojo  quintico T=3.097s vmax=0.1998m/s amax=0.1987m/s² var_a=0.7946 cumple=True
+4D_azul  cubico   T=9.960s vmax=0.0497m/s amax=0.0200m/s² var_a=0.0798 cumple=True
+4D_azul  quintico T=9.770s vmax=0.0633m/s amax=0.0200m/s² var_a=0.0798 cumple=True

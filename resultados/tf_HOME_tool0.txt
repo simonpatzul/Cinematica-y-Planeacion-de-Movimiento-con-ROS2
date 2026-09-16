@@ -1,0 +1,34 @@
+=== base_link -> tool0 ===
+[37;1m2026-09-16 08:44:49.911 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7002: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[INFO] [1789566289.931725572] [tf2_echo]: Waiting for transform base_link ->  tool0: Invalid frame ID "base_link" passed to canTransform argument target_frame - frame does not exist
+At time 1789566290.890324718
+- Translation: [0.487, 0.109, 0.432]
+- Rotation: in Quaternion (xyzw) [-0.707, 0.707, -0.000, -0.000]
+- Rotation: in RPY (radian) [-3.142, -0.000, -1.571]
+- Rotation: in RPY (degree) [-180.000, -0.000, -90.000]
+- Matrix:
+ -0.000 -1.000  0.000  0.487
+ -1.000  0.000 -0.000  0.109
+  0.000 -0.000 -1.000  0.432
+  0.000  0.000  0.000  1.000
+At time 1789566291.870402638
+- Translation: [0.487, 0.109, 0.432]
+- Rotation: in Quaternion (xyzw) [-0.707, 0.707, -0.000, -0.000]
+- Rotation: in RPY (radian) [-3.142, -0.000, -1.571]
+- Rotation: in RPY (degree) [-180.000, -0.000, -90.000]
+- Matrix:
+ -0.000 -1.000  0.000  0.487
+ -1.000  0.000 -0.000  0.109
+  0.000 -0.000 -1.000  0.432
+  0.000  0.000  0.000  1.000
+At time 1789566292.890371335
+- Translation: [0.487, 0.109, 0.432]
+- Rotation: in Quaternion (xyzw) [-0.707, 0.707, -0.000, -0.000]
+- Rotation: in RPY (radian) [-3.142, -0.000, -1.571]
+- Rotation: in RPY (degree) [-180.000, -0.000, -90.000]
+- Matrix:
+ -0.000 -1.000  0.000  0.487
+ -1.000  0.000 -0.000  0.109
+  0.000 -0.000 -1.000  0.432
+  0.000  0.000  0.000  1.000
+[INFO] [1789566293.545379086] [rclcpp]: signal_handler(SIGINT/SIGTERM)

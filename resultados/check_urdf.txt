@@ -1,0 +1,15 @@
+robot name is: ur5
+---------- Successfully Parsed XML ---------------
+root Link: world has 1 child(ren)
+    child(1):  base_link
+        child(1):  base
+        child(2):  base_link_inertia
+            child(1):  shoulder_link
+                child(1):  upper_arm_link
+                    child(1):  forearm_link
+                        child(1):  wrist_1_link
+                            child(1):  wrist_2_link
+                                child(1):  wrist_3_link
+                                    child(1):  flange
+                                        child(1):  tool0
+                                    child(2):  ft_frame

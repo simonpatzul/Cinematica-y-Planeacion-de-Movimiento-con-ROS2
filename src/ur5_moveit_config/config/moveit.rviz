@@ -58,8 +58,8 @@ Visualization Manager:
           Z: 2
       Name: MotionPlanning
       Planned Path:
-        Color Enabled: false
-        Interrupt Display: false
+        Color Enabled: true
+        Interrupt Display: true
         Links:
           All Links Enabled: true
           Expand Joint Details: false
@@ -126,12 +126,12 @@ Visualization Manager:
             Show Trail: false
             Value: true
         Loop Animation: false
-        Robot Alpha: 0.5
-        Robot Color: 150; 50; 150
+        Robot Alpha: 0.6
+        Robot Color: 0; 120; 255
         Show Robot Collision: false
-        Show Robot Visual: false
+        Show Robot Visual: true
         Show Trail: false
-        State Display Time: 0.05 s
+        State Display Time: 0.15 s
         Trail Step Size: 1
         Trajectory Topic: display_planned_path
         Use Sim Time: false
