@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: ur5_description
+    relative_path: urdf/ur5.urdf.xacro
+  srdf:
+    relative_path: config/ur5.srdf
+  package_settings:
+    author_name: Simon Patino
+    author_email: Simon.patino@eia.edu.co
+    generated_timestamp: 1789270853
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
