@@ -1,6 +1,6 @@
 # Taller de Cinemática — KUKA KR-6 (MATLAB)
 
-Entrega independiente del taller de cinemática y trayectoria del robot KUKA KR-6 (6R). No tiene relación con el workspace ROS2/MoveIt del UR5 de la carpeta raíz; se conserva aparte a propósito.
+Entrega independiente del taller de cinemática y trayectoria del robot KUKA KR-6 (6R). No tiene relación con el workspace ROS2/MoveIt del UR5 de [`../UR5_MoveIt/`](../UR5_MoveIt/README.md); se conserva aparte a propósito.
 
 ## Video explicativo
 
@@ -64,4 +64,4 @@ octave --no-gui --eval "cd('kuka_kr6_matlab'); Matlab_TallerIK"
 
 ## Archivos generados
 
-El script imprime en consola: dimensiones de `SlnSet`, `Slnsetpoint_1`, el resultado del filtrado por capas, la capa asignada a `SlnSetVer` y el primer vector articular en radianes. La figura 3D con la trayectoria y los frames se muestra en pantalla (`figure(1)`); si se ejecuta con `./taller.sh matlab` desde la raíz del repositorio, se guardan capturas de las gráficas del UR5 en `../resultados/matlab/` (este script del KUKA es independiente de ese flujo).
+El script imprime en consola: dimensiones de `SlnSet`, `Slnsetpoint_1`, el resultado del filtrado por capas, la capa asignada a `SlnSetVer` y el primer vector articular en radianes. La figura 3D con la trayectoria y los frames se muestra en pantalla (`figure(1)`). Este script es independiente de la entrega UR5/MoveIt de `../UR5_MoveIt/`.

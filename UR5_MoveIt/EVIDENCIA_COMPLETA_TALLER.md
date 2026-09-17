@@ -8,32 +8,30 @@ Integrantes: Simón Patiño (autor identificado en `src/ur5_moveit_config/.setup
 
 Construir una configuración propia de MoveIt 2 para un UR5 clásico a partir de su URDF/Xacro, comparar la transformación homogénea obtenida por ROS/TF contra el modelo DH, resolver la IK de una pose de recogida (PICK) y una de entrega (PLACE), ejecutar un ciclo completo de pick-and-place comparando planeadores (RRTConnect/RRT*) y leyes de movimiento (cúbica/quíntica), y verificar el Jacobiano analítico contra el de MoveIt/KDL en los puntos clave del ciclo.
 
-Todo el taller se puede reproducir con un solo comando por numeral usando `./taller.sh <comando>` (ver `COMANDOS_RAPIDOS.md`).
+Todo el taller se puede reproducir comando por comando (ver `COMANDOS_RAPIDOS.md` para el comando `ros2 run`/`ros2 service call` exacto de cada numeral).
 
 ## 2. Estructura del proyecto
 
+Esta carpeta (`UR5_MoveIt/`) es una de las dos entregas independientes del repositorio; la otra es `../KUKA_KR6_MATLAB/` (KUKA KR-6 en MATLAB, sin relación con esta).
+
 ```
-.
-├── taller.sh                     # dispatcher: un comando por numeral del taller
+UR5_MoveIt/
 ├── README.md
 ├── EVIDENCIA_COMPLETA_TALLER.md   # este documento
 ├── COMANDOS_RAPIDOS.md
-├── GUIA_COMPLETA_TALLER.md        # guía extendida, comando por comando
-├── LIMPIEZA_ENTREGA.md
 ├── src/
 │   ├── ur5_description/           # URDF/Xacro del UR5 clásico
 │   ├── ur5_moveit_config/         # SRDF, kinematics, OMPL, controladores, RViz
 │   └── ur5_pick_place/            # C++/Python: escena, secuencia, reportes cinemáticos
 ├── matlab/                        # validación DH del UR5 (sin Robotics System Toolbox)
-├── scripts/                       # taller_*.sh (uno por comando) y utilidades Python
-├── resultados/
-│   ├── ros2/                      # TXT/CSV generados por los ejecutables C++
-│   ├── logs/                      # volcados de terminal de cada ejecución
-│   ├── tablas/                    # CSV del modelo escalar Python (perfiles)
-│   ├── imagenes/                  # gráficas y capturas
-│   ├── matlab/                    # gráficas generadas por MATLAB/Octave
-│   └── historico/                 # evidencia real de versiones anteriores del código
-└── kuka_kr6_matlab/                # entrega independiente: KUKA KR-6 en MATLAB
+├── scripts/                       # utilidades Python para generar gráficas de evidencia
+└── resultados/
+    ├── ros2/                      # TXT/CSV generados por los ejecutables C++
+    ├── logs/                      # volcados de terminal de cada ejecución
+    ├── tablas/                    # CSV del modelo escalar Python (perfiles)
+    ├── imagenes/                  # gráficas y capturas
+    ├── matlab/                    # gráficas generadas por MATLAB/Octave
+    └── historico/                 # evidencia real de versiones anteriores del código
 ```
 
 - `ur5_description`: geometría, mallas y árbol cinemático del UR5 (URDF/Xacro).
@@ -52,7 +50,7 @@ La configuración de `src/ur5_moveit_config` se construyó a partir de ese Xacro
 
 ### 4.1 URDF/Xacro
 
-Archivo fuente: `src/ur5_description/urdf/ur5.urdf.xacro`. Se valida con `xacro` + `check_urdf` (`./taller.sh modelo`).
+Archivo fuente: `src/ur5_description/urdf/ur5.urdf.xacro`. Se valida con `xacro` + `check_urdf` (ver sección 5).
 
 ### 4.2 Setup Assistant
 
@@ -105,7 +103,8 @@ Dos estados: `HOME` (posición de referencia académica) y `READY`.
 ### Comando
 
 ```bash
-./taller.sh modelo
+xacro src/ur5_description/urdf/ur5.urdf.xacro > /tmp/ur5_taller.urdf
+check_urdf /tmp/ur5_taller.urdf
 ```
 
 ### Qué se hizo
@@ -129,7 +128,8 @@ El Xacro describe la geometría real; `check_urdf` confirma que el árbol de esl
 ### Comando
 
 ```bash
-./taller.sh home
+ros2 run ur5_pick_place move_named_state --ros-args -p target:=HOME -p execute:=true
+ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME -p results_dir:=resultados/ros2
 ```
 
 ### Qué se hizo
@@ -167,7 +167,8 @@ Las dos formas de calcular la pose del efector (la que usa MoveIt internamente y
 ### Comando
 
 ```bash
-./taller.sh ik
+ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PICK -p results_dir:=resultados/ros2
+ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PLACE -p results_dir:=resultados/ros2
 ```
 
 ### Qué se hizo
@@ -196,7 +197,8 @@ MoveIt obtiene la IK; esas mismas articulaciones se llevan al modelo DH y su FK 
 ### Comando
 
 ```bash
-./taller.sh escena
+ros2 run ur5_pick_place planning_scene_setup
+ros2 service call /get_planning_scene moveit_msgs/srv/GetPlanningScene "{components: {components: 24}}"
 ```
 
 ### Qué se hizo
@@ -215,7 +217,7 @@ Confirmado por consulta directa al servicio `/get_planning_scene`, no solo por e
 
 ### Evidencia
 
-`resultados/logs/escena.txt`, `resultados/imagenes/planning_scene.png` (la vista 3D de RViz se captura con artefactos de renderizado en este equipo — ver sección 20; el panel de MoveIt y el estado de la escena sí se ven correctamente).
+`resultados/logs/escena.txt`, `resultados/imagenes/planning_scene.png` (la vista 3D de RViz se captura con artefactos de renderizado en este equipo; el panel de MoveIt y el estado de la escena sí se ven correctamente).
 
 ### Qué significa
 
@@ -226,7 +228,7 @@ La PlanningScene es el mundo geométrico contra el que MoveIt comprueba colision
 ### Comando
 
 ```bash
-./taller.sh 4a
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A -p results_dir:=resultados/ros2
 ```
 
 ### Resultado
@@ -248,7 +250,7 @@ Se comparan RRTConnect y RRTstar bajo las mismas condiciones (misma escena, mism
 ### Comando
 
 ```bash
-./taller.sh 4b
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B -p results_dir:=resultados/ros2
 ```
 
 ### Qué se hizo
@@ -280,7 +282,7 @@ La trayectoria geométrica (la recta) y la ley de movimiento en el tiempo son pr
 ### Comando
 
 ```bash
-./taller.sh 4c
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C -p results_dir:=resultados/ros2
 ```
 
 ### Qué se hizo
@@ -308,7 +310,7 @@ La pieza pasa de ser un objeto del mundo a un objeto adjunto: viaja con el efect
 ### Comando
 
 ```bash
-./taller.sh 4d
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D -p results_dir:=resultados/ros2
 ```
 
 ### Resultado
@@ -339,7 +341,9 @@ El taller exige simetría metodológica entre 4B y 4D: la familia temporal se de
 ### Comando
 
 ```bash
-./taller.sh jacobiano
+for estado in HOME PICK PLACE 4B 4D; do
+  ros2 run ur5_pick_place kinematics_report --ros-args -p state:="$estado" -p results_dir:=resultados/ros2
+done
 ```
 
 `xdot = J(q)·qdot`: la velocidad cartesiana del efector es el Jacobiano evaluado en la configuración actual, multiplicado por la velocidad articular.
@@ -391,7 +395,7 @@ El Jacobiano DH y el de MoveIt/KDL coinciden en los 5 estados (error de punto fl
 ### Comando
 
 ```bash
-./taller.sh ciclo
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL -p results_dir:=resultados/ros2
 ```
 
 ```
@@ -406,7 +410,7 @@ El Jacobiano DH y el de MoveIt/KDL coinciden en los 5 estados (error de punto fl
 CICLO COMPLETO: OK
 ```
 
-Se ejecutó de forma reproducible en 4 corridas independientes durante esta entrega (3 conservadas en `resultados/logs/reproducibilidad/ciclo_terminal_final_run{1,2,3}.txt` más la corrida final de `./taller.sh ciclo`), siempre terminando en "pieza liberada después de alcanzar PLACE".
+Se ejecutó de forma reproducible en 4 corridas independientes durante esta entrega (3 conservadas en `resultados/logs/reproducibilidad/ciclo_terminal_final_run{1,2,3}.txt` más la corrida final del ciclo completo), siempre terminando en "pieza liberada después de alcanzar PLACE".
 
 ### Evidencia
 
@@ -417,47 +421,33 @@ Se ejecutó de forma reproducible en 4 corridas independientes durante esta entr
 ### Comando
 
 ```bash
-./taller.sh matlab
+cd matlab
+octave --no-gui --eval "UR5_DH_VALIDACION"
+octave --no-gui --eval "generar_evidencia_grafica"
 ```
 
 Ejecuta `matlab/UR5_DH_VALIDACION.m` (HOME/PICK/PLACE, sin Robotics System Toolbox) y `matlab/generar_evidencia_grafica.m`, que lee los CSV reales de `resultados/ros2/` y genera 8 gráficas en `resultados/matlab/`.
 
 <!-- MATLAB_GRAFICAS -->
 
-## 16. Verificación
-
-```bash
-./taller.sh verificar
-```
-
-Corre `scripts/verificar_workspace.py`, comprueba que las imágenes referenciadas en los Markdown existan, y audita que no queden referencias a herramientas de IA en el código o la documentación.
-
-## 17. Ejecución completa
-
-```bash
-./taller.sh todo
-```
-
-Ejecuta en orden: `preparar, compilar, modelo, home, ik, escena, 4a, 4b, 4c, 4d, jacobiano, ciclo, verificar`.
-
-## 18. Tabla de cumplimiento
+## 16. Tabla de cumplimiento
 
 | Requisito | Comando | Resultado | Evidencia | Estado |
 |---|---|---|---|---|
-| Modelo URDF/Xacro + MoveIt2 | `./taller.sh modelo` | check_urdf OK, grupo/estados/KDL/OMPL/controladores presentes | `resultados/ros2/check_urdf.txt` | CUMPLE |
-| Transformación HOME (DH vs ROS) | `./taller.sh home` | error posición/matriz = 0 | `resultados/ros2/kinematics_HOME.*` | CUMPLE |
-| IK PICK/PLACE | `./taller.sh ik` | error posición/matriz = 0 en ambas poses | `resultados/ros2/kinematics_{PICK,PLACE}.*` | CUMPLE |
-| PlanningScene (4 objetos) | `./taller.sh escena` | 4/4 objetos confirmados | `resultados/logs/escena.txt` | CUMPLE |
-| 4A: RRTConnect vs RRTstar | `./taller.sh 4a` | 20/20 candidatos válidos, ganador ejecutado | `resultados/ros2/trayectorias_4A_home_pre_pick.csv` | CUMPLE |
-| 4B: cúbico vs quíntico | `./taller.sh 4b` | cúbico rechazado (0.3047>0.3), quíntico ejecutado | `resultados/ros2/perfiles_4B_pre_pick_pick.csv` | CUMPLE |
-| 4C: pieza adjunta | `./taller.sh 4c` | ATTACHED=SÍ, 8/20 candidatos válidos, ganador ejecutado | `resultados/ros2/trayectorias_4C_pick_pre_place.csv` | CUMPLE |
-| 4D: perfil de 4B + detach | `./taller.sh 4d` | mismo perfil (quíntico), ATTACHED=NO al final | `resultados/ros2/perfiles_4D_pre_place_place.csv` | CUMPLE |
-| Jacobiano DH vs MoveIt (5 estados) | `./taller.sh jacobiano` | ‖error‖_F ≈ 1e-9 en los 5 estados | `resultados/ros2/kinematics_*.{txt,csv}` | CUMPLE |
-| Ciclo completo reproducible | `./taller.sh ciclo` | 4 corridas, siempre OK | `resultados/logs/reproducibilidad/` | CUMPLE |
-| MATLAB UR5 (sin toolbox) | `./taller.sh matlab` | ver sección 15 | `resultados/matlab/` | Ver sección 15 |
+| Modelo URDF/Xacro + MoveIt2 | `xacro ... \| check_urdf` | check_urdf OK, grupo/estados/KDL/OMPL/controladores presentes | `resultados/ros2/check_urdf.txt` | CUMPLE |
+| Transformación HOME (DH vs ROS) | `kinematics_report state:=HOME` | error posición/matriz = 0 | `resultados/ros2/kinematics_HOME.*` | CUMPLE |
+| IK PICK/PLACE | `kinematics_report state:=PICK\|PLACE` | error posición/matriz = 0 en ambas poses | `resultados/ros2/kinematics_{PICK,PLACE}.*` | CUMPLE |
+| PlanningScene (4 objetos) | `planning_scene_setup` + `get_planning_scene` | 4/4 objetos confirmados | `resultados/logs/escena.txt` | CUMPLE |
+| 4A: RRTConnect vs RRTstar | `pick_place_sequence hasta_tramo:=4A` | 20/20 candidatos válidos, ganador ejecutado | `resultados/ros2/trayectorias_4A_home_pre_pick.csv` | CUMPLE |
+| 4B: cúbico vs quíntico | `pick_place_sequence hasta_tramo:=4B` | cúbico rechazado (0.3047>0.3), quíntico ejecutado | `resultados/ros2/perfiles_4B_pre_pick_pick.csv` | CUMPLE |
+| 4C: pieza adjunta | `pick_place_sequence hasta_tramo:=4C` | ATTACHED=SÍ, 8/20 candidatos válidos, ganador ejecutado | `resultados/ros2/trayectorias_4C_pick_pre_place.csv` | CUMPLE |
+| 4D: perfil de 4B + detach | `pick_place_sequence hasta_tramo:=4D` | mismo perfil (quíntico), ATTACHED=NO al final | `resultados/ros2/perfiles_4D_pre_place_place.csv` | CUMPLE |
+| Jacobiano DH vs MoveIt (5 estados) | `kinematics_report` × 5 estados | ‖error‖_F ≈ 1e-9 en los 5 estados | `resultados/ros2/kinematics_*.{txt,csv}` | CUMPLE |
+| Ciclo completo reproducible | `pick_place_sequence hasta_tramo:=FULL` | 4 corridas, siempre OK | `resultados/logs/reproducibilidad/` | CUMPLE |
+| MATLAB UR5 (sin toolbox) | `octave ... UR5_DH_VALIDACION` | ver sección 15 | `resultados/matlab/` | Ver sección 15 |
 | KUKA KR-6 (entrega independiente) | — | ver `kuka_kr6_matlab/README.md` | `kuka_kr6_matlab/` | Ver README del KUKA |
 
-## 19. Conclusiones
+## 17. Conclusiones
 
 1. El modelo DH implementado en C++ y en MATLAB coincide con el que usa MoveIt/KDL en los 5 estados evaluados (HOME, PICK, PLACE, 4B, 4D), con error de punto flotante (~1e-9), tanto en la transformación homogénea como en el Jacobiano.
 2. RRTConnect planea en milisegundos y RRTstar agota el tiempo asignado (~8 s) porque sigue optimizando; con la métrica de selección del taller (menor longitud articular) ambos son competitivos, y el ganador varía entre corridas según la geometría específica de cada candidato.
