@@ -1,3 +1,0 @@
-tramo,perfil,valido,duracion_s,variacion_aceleracion_articular,max_velocidad_articular,max_aceleracion_articular,max_velocidad_tcp_m_s,max_aceleracion_tcp_m_s2,limite_tcp_velocidad_m_s,limite_tcp_aceleracion_m_s2,motivo
-4B_pre_pick_pick,cubico,no,2.56915,7.48052,0.44935,1.10747,0.191931,0.304625,0.2,0.3,viola aceleracion TCP: 0.304625 > 0.3
-4B_pre_pick_pick,quintico,si,3.09399,4.89156,0.463752,0.602963,0.199001,0.199028,0.2,0.3,valida: limites, meta y colisiones comprobados

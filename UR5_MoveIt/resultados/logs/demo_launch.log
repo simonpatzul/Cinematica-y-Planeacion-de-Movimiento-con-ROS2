@@ -9507,3 +9507,5 @@
 [move_group-2] [INFO] [1789612596.418717709] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
 [move_group-2] [INFO] [1789612596.419064138] [move_group.moveit.moveit.ros.move_group.clear_octomap_service]: Execution completed: SUCCEEDED
 [move_group-2] [INFO] [1789612596.428961320] [move_group.moveit.moveit.ros.planning_scene_monitor]: Published update attached
+[ros2_control_node-4] [WARN] [1789618233.840403536] [controller_manager]: Overrun detected! The controller manager missed its desired rate of 100 Hz. The loop took 22.181137 ms (missed cycles : 3).
+[ros2_control_node-4] [WARN] [1789618447.325417121] [controller_manager]: Overrun detected! The controller manager missed its desired rate of 100 Hz. The loop took 17.194532 ms (missed cycles : 2).
