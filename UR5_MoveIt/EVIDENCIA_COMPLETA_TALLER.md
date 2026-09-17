@@ -2,7 +2,7 @@
 
 ## Robot UR5
 
-Integrantes: Simón Patiño (autor identificado en `src/ur5_moveit_config/.setup_assistant` y en el `package.xml` del paquete MoveIt).
+Integrantes: Simón Patiño, Isabella Guerrero
 
 ## 1. Objetivo
 
