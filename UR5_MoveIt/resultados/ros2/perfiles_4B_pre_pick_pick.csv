@@ -1,3 +1,3 @@
 tramo,perfil,valido,duracion_s,variacion_aceleracion_articular,max_velocidad_articular,max_aceleracion_articular,max_velocidad_tcp_m_s,max_aceleracion_tcp_m_s2,limite_tcp_velocidad_m_s,limite_tcp_aceleracion_m_s2,motivo
-4B_pre_pick_pick,cubico,no,2.56918,7.47698,0.449369,1.10706,0.191933,0.304642,0.2,0.3,viola aceleracion TCP: 0.304642 > 0.3
-4B_pre_pick_pick,quintico,si,3.09407,4.8891,0.463768,0.602743,0.199,0.199027,0.2,0.3,valida: limites, meta y colisiones comprobados
+4B_pre_pick_pick,cubico,no,2.56915,7.47994,0.449351,1.10743,0.191932,0.304635,0.2,0.3,viola aceleracion TCP: 0.304635 > 0.3
+4B_pre_pick_pick,quintico,si,3.09401,4.89112,0.463752,0.602939,0.199001,0.199027,0.2,0.3,valida: limites, meta y colisiones comprobados
