@@ -2,7 +2,7 @@
 
 Entrega independiente del taller de cinemática y trayectoria del robot KUKA KR-6 (6R). No tiene relación con el workspace ROS2/MoveIt del UR5 de la carpeta raíz; se conserva aparte a propósito.
 
-## Video de referencia
+## Video explicativo
 
 Explicación de la solución de cinemática inversa de este taller: https://www.youtube.com/watch?v=DNgPkYz-wLw
 

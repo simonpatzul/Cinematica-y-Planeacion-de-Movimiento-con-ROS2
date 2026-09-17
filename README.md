@@ -11,7 +11,7 @@ No se mezclan resultados entre las dos entregas.
 
 Cinemática inversa analítica exacta (desacople cinemático, hasta 8 configuraciones por punto), filtrado por capas, Jacobiano y animación 3D con frames `{0}` y `{6}`.
 
-Video de referencia: https://www.youtube.com/watch?v=DNgPkYz-wLw
+Video explicativo: https://www.youtube.com/watch?v=DNgPkYz-wLw
 
 Ver [kuka_kr6_matlab/README.md](kuka_kr6_matlab/README.md) para el detalle completo y cómo ejecutarlo.
 
