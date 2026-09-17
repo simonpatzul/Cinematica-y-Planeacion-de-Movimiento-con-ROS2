@@ -191,10 +191,6 @@ Error de posición, orientación y matriz 4x4: 0 en ambos casos (dentro de la pr
 
 MoveIt obtiene la IK; esas mismas articulaciones se llevan al modelo DH y su FK coincide con la de MoveIt, es decir, IK y FK son consistentes para las dos poses de trabajo del taller.
 
-### Video de referencia
-
-Explicación de cinemática inversa usada como apoyo para esta parte: https://www.youtube.com/watch?v=DNgPkYz-wLw
-
 ## 8. PlanningScene
 
 ### Comando

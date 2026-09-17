@@ -2,6 +2,10 @@
 
 Entrega independiente del taller de cinemática y trayectoria del robot KUKA KR-6 (6R). No tiene relación con el workspace ROS2/MoveIt del UR5 de la carpeta raíz; se conserva aparte a propósito.
 
+## Video de referencia
+
+Explicación de la solución de cinemática inversa de este taller: https://www.youtube.com/watch?v=DNgPkYz-wLw
+
 ## Objetivo
 
 Generar una trayectoria cartesiana de 25 puntos, resolver la cinemática inversa analítica exacta (desacople cinemático) para hasta 8 configuraciones por punto, filtrar las configuraciones válidas por capas completas, calcular el Jacobiano y animar el recorrido con los frames `{0}` y `{6}`.
