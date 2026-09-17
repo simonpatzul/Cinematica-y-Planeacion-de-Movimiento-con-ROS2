@@ -1,0 +1,827 @@
+VERIFICACION ESTATICA DEL WORKSPACE UR5
+OK: 822
+FALLOS: 0
+[OK] archivo presente y no vacío: README.md
+[OK] archivo presente y no vacío: GUIA_COMPLETA_TALLER.md
+[OK] archivo presente y no vacío: EVIDENCIA_COMPLETA_TALLER.md
+[OK] archivo presente y no vacío: COMANDOS_RAPIDOS.md
+[OK] archivo presente y no vacío: LIMPIEZA_ENTREGA.md
+[OK] archivo presente y no vacío: taller.sh
+[OK] archivo presente y no vacío: src/ur5_description/urdf/ur5.urdf.xacro
+[OK] archivo presente y no vacío: src/ur5_moveit_config/config/ur5.srdf
+[OK] archivo presente y no vacío: src/ur5_moveit_config/config/kinematics.yaml
+[OK] archivo presente y no vacío: src/ur5_moveit_config/config/joint_limits.yaml
+[OK] archivo presente y no vacío: src/ur5_moveit_config/config/ompl_planning.yaml
+[OK] archivo presente y no vacío: src/ur5_moveit_config/config/ros2_controllers.yaml
+[OK] archivo presente y no vacío: src/ur5_pick_place/src/planning_scene_setup.cpp
+[OK] archivo presente y no vacío: src/ur5_pick_place/src/pick_place_sequence.cpp
+[OK] archivo presente y no vacío: src/ur5_pick_place/src/kinematics_report.cpp
+[OK] archivo presente y no vacío: src/ur5_pick_place/scripts/trajectory_profiles.py
+[OK] archivo presente y no vacío: matlab/UR5_DH_VALIDACION.m
+[OK] archivo presente y no vacío: resultados/tablas/resumen_perfiles.csv
+[OK] archivo presente y no vacío: kuka_kr6_matlab/Matlab_TallerIK.m
+[OK] archivo presente y no vacío: kuka_kr6_matlab/README.md
+[OK] XML bien formado: src/ur5_pick_place/package.xml
+[OK] XML bien formado: src/ur5_moveit_config/package.xml
+[OK] XML bien formado: src/ur5_description/package.xml
+[OK] XML bien formado: src/ur5_moveit_config/config/ur5.srdf
+[OK] XML bien formado: src/ur5_description/urdf/ur.urdf.xacro
+[OK] XML bien formado: src/ur5_description/urdf/ur5.urdf.xacro
+[OK] XML bien formado: src/ur5_description/urdf/ros2_control_mock_hardware.xacro
+[OK] XML bien formado: src/ur5_description/urdf/ur_mocked.urdf.xacro
+[OK] XML bien formado: src/ur5_description/urdf/ur_macro.xacro
+[OK] XML bien formado: src/ur5_description/urdf/inc/ur_sensors.xacro
+[OK] XML bien formado: src/ur5_description/urdf/inc/ur_transmissions.xacro
+[OK] XML bien formado: src/ur5_description/urdf/inc/ur_joint_control.xacro
+[OK] XML bien formado: src/ur5_description/urdf/inc/ur_common.xacro
+[OK] PyYAML disponible para revisar YAML
+[OK] YAML válido: src/ur5_moveit_config/config/joint_limits.yaml
+[OK] YAML válido: src/ur5_moveit_config/config/ompl_planning.yaml
+[OK] YAML válido: src/ur5_moveit_config/config/initial_positions.yaml
+[OK] YAML válido: src/ur5_moveit_config/config/ros2_controllers.yaml
+[OK] YAML válido: src/ur5_moveit_config/config/moveit_controllers.yaml
+[OK] YAML válido: src/ur5_moveit_config/config/pilz_cartesian_limits.yaml
+[OK] YAML válido: src/ur5_moveit_config/config/kinematics.yaml
+[OK] trajectory_profiles.py compila sintácticamente
+[OK] SRDF contiene ur_manipulator
+[OK] SRDF contiene HOME
+[OK] SRDF contiene READY
+[OK] SRDF contiene matriz de autocolisiones
+[OK] KDL configurado
+[OK] OMPL contiene RRTConnect
+[OK] OMPL contiene RRTstar
+[OK] PlanningScene contiene pick_surface
+[OK] PlanningScene contiene place_surface
+[OK] PlanningScene contiene workpiece
+[OK] PlanningScene contiene obstacle
+[OK] secuencia: INTENTOS=10
+[OK] secuencia: computeCartesianPath
+[OK] secuencia: 4 waypoints intermedios
+[OK] secuencia: RRTConnect
+[OK] secuencia: RRTstar
+[OK] secuencia: CSV candidatos
+[OK] secuencia: selección antes de execute
+[OK] secuencia: attach después de 4B
+[OK] secuencia: detach después de 4D
+[OK] secuencia: perfil 4D forzado desde 4B
+[OK] secuencia: evidencia perfil seleccionado
+[OK] secuencia: medición TCP con J*qdot
+[OK] secuencia: límites TCP en C++
+[OK] secuencia: detención sin candidato
+[OK] kinematics_report soporta HOME
+[OK] kinematics_report soporta PICK
+[OK] kinematics_report soporta PLACE
+[OK] kinematics_report soporta "4B"
+[OK] kinematics_report soporta "4D"
+[OK] kinematics_report soporta CURRENT
+[OK] kinematics_report reporta: Cuaternion MoveIt
+[OK] kinematics_report reporta: Error maximo de la matriz homogenea
+[OK] kinematics_report reporta: getJacobian
+[OK] kinematics_report reporta: xdot exigida por perfil
+[OK] guía contiene: # Guía completa del taller UR5 con ROS 2 y MoveIt 2
+[OK] guía contiene: ## 0. Preparación del workspace
+[OK] guía contiene: ## 1. Modelo del manipulador
+[OK] guía contiene: ### 1.1 Paquete ur5_description
+[OK] guía contiene: ### 1.2 Validación URDF/Xacro
+[OK] guía contiene: ### 1.3 Geometrías visuales y de colisión
+[OK] guía contiene: ### 1.4 Grupo de planeación
+[OK] guía contiene: ### 1.5 Estados HOME y READY
+[OK] guía contiene: ### 1.6 Límites articulares
+[OK] guía contiene: ### 1.7 Matriz de autocolisiones
+[OK] guía contiene: ### 1.8 Solver KDL
+[OK] guía contiene: ### 1.9 Visualización en RViz
+[OK] guía contiene: ### 1.10 MoveIt Setup Assistant
+[OK] guía contiene: ## 2. Transformación homogénea en HOME
+[OK] guía contiene: ### 2.1 Llevar el robot a HOME
+[OK] guía contiene: ### 2.2 Consultar base_link -> tool0
+[OK] guía contiene: ### 2.3 Frames de cada articulación
+[OK] guía contiene: ### 2.4 Árbol TF
+[OK] guía contiene: ### 2.5 Pose desde MoveIt
+[OK] guía contiene: ### 2.6 Transformación DH
+[OK] guía contiene: ### 2.7 Comparación MoveIt/TF2 contra DH
+[OK] guía contiene: ### 2.8 Errores de posición y orientación
+[OK] guía contiene: ## 3. Cinemática inversa de pick y place
+[OK] guía contiene: ### 3.1 Definición de pick
+[OK] guía contiene: ### 3.2 IK de pick
+[OK] guía contiene: ### 3.3 Valores articulares de pick
+[OK] guía contiene: ### 3.4 Verificación DH de pick
+[OK] guía contiene: ### 3.5 Definición de place
+[OK] guía contiene: ### 3.6 IK de place
+[OK] guía contiene: ### 3.7 Valores articulares de place
+[OK] guía contiene: ### 3.8 Verificación DH de place
+[OK] guía contiene: ### 3.9 Error MoveIt frente a DH
+[OK] guía contiene: ## 4. Ciclo de pick-and-place
+[OK] guía contiene: ### 4.0 PlanningScene
+[OK] guía contiene: ### 4.0.1 Mesa
+[OK] guía contiene: ### 4.0.2 Pieza
+[OK] guía contiene: ### 4.0.3 Obstáculo
+[OK] guía contiene: ### 4A. HOME -> pre-pick
+[OK] guía contiene: ### 4A.1 RRTConnect
+[OK] guía contiene: ### 4A.2 RRTstar
+[OK] guía contiene: ### 4A.3 Múltiples intentos
+[OK] guía contiene: ### 4A.4 Métricas
+[OK] guía contiene: ### 4A.5 Descarte de trayectorias
+[OK] guía contiene: ### 4A.6 Selección de la mejor
+[OK] guía contiene: ### 4B. Pre-pick -> pick
+[OK] guía contiene: ### 4B.1 Waypoints
+[OK] guía contiene: ### 4B.2 Perfil cúbico
+[OK] guía contiene: ### 4B.3 Perfil quíntico
+[OK] guía contiene: ### 4B.4 Velocidad y aceleración
+[OK] guía contiene: ### 4B.5 Selección del perfil
+[OK] guía contiene: ### 4C. Pick -> pre-place
+[OK] guía contiene: ### 4C.1 Adjuntar la pieza
+[OK] guía contiene: ### 4C.2 Generar candidatos
+[OK] guía contiene: ### 4C.3 Evaluar candidatos
+[OK] guía contiene: ### 4C.4 Ejecutar la mejor trayectoria
+[OK] guía contiene: ### 4D. Pre-place -> place
+[OK] guía contiene: ### 4D.1 Aproximación cartesiana
+[OK] guía contiene: ### 4D.2 Verificar el perfil
+[OK] guía contiene: ### 4D.3 Liberar la pieza
+[OK] guía contiene: ### 4E. Ciclo completo en RViz
+[OK] guía contiene: ## 5. Jacobiano
+[OK] guía contiene: ### 5.1 Jacobiano analítico
+[OK] guía contiene: ### 5.2 Jacobiano MoveIt/KDL
+[OK] guía contiene: ### 5.3 Comparación numérica
+[OK] guía contiene: ### 5.4 Error máximo
+[OK] guía contiene: ### 5.5 Relación x_dot = J q_dot
+[OK] guía contiene: ### 5.6 Verificación en 4B
+[OK] guía contiene: ### 5.7 Verificación en 4D
+[OK] guía contiene: ### 5.8 Comandos para HOME, pick, place y estado actual
+[OK] guía contiene: ## 6. Resultados y evidencias
+[OK] guía contiene: ## 7. Ejecución completa desde cero
+[OK] guía contiene: ## 8. Guion para la sustentación
+[OK] guía contiene: ## 9. Preguntas posibles del profesor
+[OK] guía contiene: ## 10. Solución de errores frecuentes
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 3. Archivos relacionados
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 5. Resultado esperado
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 6. Evidencia generada
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 0.1 Entorno, dependencias, limpieza y compilación -> 8. Estado
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.1 Paquete ur5_description -> 8. Estado
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.2 Validación URDF/Xacro -> 8. Estado
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.3 Geometrías visuales y de colisión -> 8. Estado
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.4 Grupo de planeación -> 8. Estado
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.5 Estados HOME y READY -> 8. Estado
+[OK] plantilla completa: ### 1.6 Límites articulares -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.6 Límites articulares -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.6 Límites articulares -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.6 Límites articulares -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.6 Límites articulares -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.6 Límites articulares -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.6 Límites articulares -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.6 Límites articulares -> 8. Estado
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.7 Matriz de autocolisiones -> 8. Estado
+[OK] plantilla completa: ### 1.8 Solver KDL -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.8 Solver KDL -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.8 Solver KDL -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.8 Solver KDL -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.8 Solver KDL -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.8 Solver KDL -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.8 Solver KDL -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.8 Solver KDL -> 8. Estado
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.9 Visualización en RViz -> 8. Estado
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 3. Archivos relacionados
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 5. Resultado esperado
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 6. Evidencia generada
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 1.10 MoveIt Setup Assistant -> 8. Estado
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.1 Llevar el robot a HOME -> 8. Estado
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.2 Consultar base_link -> tool0 -> 8. Estado
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.3 Frames de cada articulación -> 8. Estado
+[OK] plantilla completa: ### 2.4 Árbol TF -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.4 Árbol TF -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.4 Árbol TF -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.4 Árbol TF -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.4 Árbol TF -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.4 Árbol TF -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.4 Árbol TF -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.4 Árbol TF -> 8. Estado
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.5 Pose desde MoveIt -> 8. Estado
+[OK] plantilla completa: ### 2.6 Transformación DH -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.6 Transformación DH -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.6 Transformación DH -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.6 Transformación DH -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.6 Transformación DH -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.6 Transformación DH -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.6 Transformación DH -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.6 Transformación DH -> 8. Estado
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.7 Comparación MoveIt/TF2 contra DH -> 8. Estado
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 3. Archivos relacionados
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 5. Resultado esperado
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 6. Evidencia generada
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 2.8 Errores de posición y orientación -> 8. Estado
+[OK] plantilla completa: ### 3.1 Definición de pick -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.1 Definición de pick -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.1 Definición de pick -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.1 Definición de pick -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.1 Definición de pick -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.1 Definición de pick -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.1 Definición de pick -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.1 Definición de pick -> 8. Estado
+[OK] plantilla completa: ### 3.2 IK de pick -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.2 IK de pick -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.2 IK de pick -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.2 IK de pick -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.2 IK de pick -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.2 IK de pick -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.2 IK de pick -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.2 IK de pick -> 8. Estado
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.3 Valores articulares de pick -> 8. Estado
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.4 Verificación DH de pick -> 8. Estado
+[OK] plantilla completa: ### 3.5 Definición de place -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.5 Definición de place -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.5 Definición de place -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.5 Definición de place -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.5 Definición de place -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.5 Definición de place -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.5 Definición de place -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.5 Definición de place -> 8. Estado
+[OK] plantilla completa: ### 3.6 IK de place -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.6 IK de place -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.6 IK de place -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.6 IK de place -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.6 IK de place -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.6 IK de place -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.6 IK de place -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.6 IK de place -> 8. Estado
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.7 Valores articulares de place -> 8. Estado
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.8 Verificación DH de place -> 8. Estado
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 3. Archivos relacionados
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 5. Resultado esperado
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 6. Evidencia generada
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 3.9 Error MoveIt frente a DH -> 8. Estado
+[OK] plantilla completa: ### 4.0 PlanningScene -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4.0 PlanningScene -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4.0 PlanningScene -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4.0 PlanningScene -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4.0 PlanningScene -> 5. Resultado esperado
+[OK] plantilla completa: ### 4.0 PlanningScene -> 6. Evidencia generada
+[OK] plantilla completa: ### 4.0 PlanningScene -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4.0 PlanningScene -> 8. Estado
+[OK] plantilla completa: ### 4.0.1 Mesa -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4.0.1 Mesa -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4.0.1 Mesa -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4.0.1 Mesa -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4.0.1 Mesa -> 5. Resultado esperado
+[OK] plantilla completa: ### 4.0.1 Mesa -> 6. Evidencia generada
+[OK] plantilla completa: ### 4.0.1 Mesa -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4.0.1 Mesa -> 8. Estado
+[OK] plantilla completa: ### 4.0.2 Pieza -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4.0.2 Pieza -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4.0.2 Pieza -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4.0.2 Pieza -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4.0.2 Pieza -> 5. Resultado esperado
+[OK] plantilla completa: ### 4.0.2 Pieza -> 6. Evidencia generada
+[OK] plantilla completa: ### 4.0.2 Pieza -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4.0.2 Pieza -> 8. Estado
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 5. Resultado esperado
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 6. Evidencia generada
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4.0.3 Obstáculo -> 8. Estado
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A. HOME -> pre-pick -> 8. Estado
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A.1 RRTConnect -> 8. Estado
+[OK] plantilla completa: ### 4A.2 RRTstar -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A.2 RRTstar -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A.2 RRTstar -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A.2 RRTstar -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A.2 RRTstar -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A.2 RRTstar -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A.2 RRTstar -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A.2 RRTstar -> 8. Estado
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A.3 Múltiples intentos -> 8. Estado
+[OK] plantilla completa: ### 4A.4 Métricas -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A.4 Métricas -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A.4 Métricas -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A.4 Métricas -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A.4 Métricas -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A.4 Métricas -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A.4 Métricas -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A.4 Métricas -> 8. Estado
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A.5 Descarte de trayectorias -> 8. Estado
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 5. Resultado esperado
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 6. Evidencia generada
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4A.6 Selección de la mejor -> 8. Estado
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 5. Resultado esperado
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 6. Evidencia generada
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4B. Pre-pick -> pick -> 8. Estado
+[OK] plantilla completa: ### 4B.1 Waypoints -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4B.1 Waypoints -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4B.1 Waypoints -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4B.1 Waypoints -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4B.1 Waypoints -> 5. Resultado esperado
+[OK] plantilla completa: ### 4B.1 Waypoints -> 6. Evidencia generada
+[OK] plantilla completa: ### 4B.1 Waypoints -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4B.1 Waypoints -> 8. Estado
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 5. Resultado esperado
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 6. Evidencia generada
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4B.2 Perfil cúbico -> 8. Estado
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 5. Resultado esperado
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 6. Evidencia generada
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4B.3 Perfil quíntico -> 8. Estado
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 5. Resultado esperado
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 6. Evidencia generada
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4B.4 Velocidad y aceleración -> 8. Estado
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 5. Resultado esperado
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 6. Evidencia generada
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4B.5 Selección del perfil -> 8. Estado
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 5. Resultado esperado
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 6. Evidencia generada
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4C. Pick -> pre-place -> 8. Estado
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 5. Resultado esperado
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 6. Evidencia generada
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4C.1 Adjuntar la pieza -> 8. Estado
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 5. Resultado esperado
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 6. Evidencia generada
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4C.2 Generar candidatos -> 8. Estado
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 5. Resultado esperado
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 6. Evidencia generada
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4C.3 Evaluar candidatos -> 8. Estado
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 5. Resultado esperado
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 6. Evidencia generada
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4C.4 Ejecutar la mejor trayectoria -> 8. Estado
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 5. Resultado esperado
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 6. Evidencia generada
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4D. Pre-place -> place -> 8. Estado
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 5. Resultado esperado
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 6. Evidencia generada
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4D.1 Aproximación cartesiana -> 8. Estado
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 5. Resultado esperado
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 6. Evidencia generada
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4D.2 Verificar el perfil -> 8. Estado
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 5. Resultado esperado
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 6. Evidencia generada
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4D.3 Liberar la pieza -> 8. Estado
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 3. Archivos relacionados
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 5. Resultado esperado
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 6. Evidencia generada
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 4E. Ciclo completo en RViz -> 8. Estado
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.1 Jacobiano analítico -> 8. Estado
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.2 Jacobiano MoveIt/KDL -> 8. Estado
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.3 Comparación numérica -> 8. Estado
+[OK] plantilla completa: ### 5.4 Error máximo -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.4 Error máximo -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.4 Error máximo -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.4 Error máximo -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.4 Error máximo -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.4 Error máximo -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.4 Error máximo -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.4 Error máximo -> 8. Estado
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.5 Relación x_dot = J q_dot -> 8. Estado
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.6 Verificación en 4B -> 8. Estado
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.7 Verificación en 4D -> 8. Estado
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 3. Archivos relacionados
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 5. Resultado esperado
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 6. Evidencia generada
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 5.8 Comandos para HOME, pick, place y estado actual -> 8. Estado
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 3. Archivos relacionados
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 5. Resultado esperado
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 6. Evidencia generada
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 6.1 Inventario de evidencias -> 8. Estado
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 3. Archivos relacionados
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 5. Resultado esperado
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 6. Evidencia generada
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 7.1 Terminal 1 - MoveIt y RViz -> 8. Estado
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 3. Archivos relacionados
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 5. Resultado esperado
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 6. Evidencia generada
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 7.2 Terminal 2 - Escena y movimientos -> 8. Estado
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 3. Archivos relacionados
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 5. Resultado esperado
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 6. Evidencia generada
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 7.3 Terminal 3 - TF, Jacobiano y herramientas -> 8. Estado
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 3. Archivos relacionados
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 5. Resultado esperado
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 6. Evidencia generada
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 7.4 Terminal 4 - Python, perfiles y gráficas -> 8. Estado
+[OK] plantilla completa: ### 8.1 Guion breve -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 8.1 Guion breve -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 8.1 Guion breve -> 3. Archivos relacionados
+[OK] plantilla completa: ### 8.1 Guion breve -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 8.1 Guion breve -> 5. Resultado esperado
+[OK] plantilla completa: ### 8.1 Guion breve -> 6. Evidencia generada
+[OK] plantilla completa: ### 8.1 Guion breve -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 8.1 Guion breve -> 8. Estado
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 3. Archivos relacionados
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 5. Resultado esperado
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 6. Evidencia generada
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 9.1 Banco de preguntas -> 8. Estado
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 1. Qué solicita el taller
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 2. Cómo se resolvió
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 3. Archivos relacionados
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 4. Comandos para demostrarlo
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 5. Resultado esperado
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 6. Evidencia generada
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 7. Cómo explicarlo en la sustentación
+[OK] plantilla completa: ### 10.1 Diagnóstico reproducible -> 8. Estado
+[OK] cada subsección tiene estado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple por revisión estática
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] estado permitido: Cumple y fue ejecutado
+[OK] guía contiene al menos 15 preguntas
+[OK] resumen de perfiles contiene 4 filas
+[OK] los 4 perfiles Python cumplen límites
+[OK] historial ROS tiene aviso de trazabilidad
+[OK] historial conserva terminal real
+[OK] historial conserva candidatos 4A reales
+[OK] KUKA: 8 configuraciones por punto
+[OK] KUKA: SlnSet n x 6 x 8
+[OK] KUKA: filtrado SlnSetVer
+[OK] KUKA: filtrado de valores imaginarios
+[OK] KUKA: filtrado de NaN
+[OK] KUKA: cálculo de Jacobiano
+[OK] KUKA: cinemática directa
+[OK] KUKA: animación/visualización de frames
+[OK] taller.sh es ejecutable
+[OK] taller.sh define el comando: ayuda
+[OK] taller.sh define el comando: preparar
+[OK] taller.sh define el comando: compilar
+[OK] taller.sh define el comando: modelo
+[OK] taller.sh define el comando: home
+[OK] taller.sh define el comando: ik
+[OK] taller.sh define el comando: escena
+[OK] taller.sh define el comando: 4a
+[OK] taller.sh define el comando: 4b
+[OK] taller.sh define el comando: 4c
+[OK] taller.sh define el comando: 4d
+[OK] taller.sh define el comando: jacobiano
+[OK] taller.sh define el comando: ciclo
+[OK] taller.sh define el comando: matlab
+[OK] taller.sh define el comando: verificar
+[OK] taller.sh define el comando: todo
+
+NOTA: esta prueba no sustituye xacro/check_urdf, colcon build, ROS 2, MoveIt ni RViz.

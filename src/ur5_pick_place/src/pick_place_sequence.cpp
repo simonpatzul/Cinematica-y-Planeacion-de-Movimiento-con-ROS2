@@ -34,7 +34,7 @@ constexpr int INTENTOS = 10;
 constexpr double TOL_POS = 0.015;
 constexpr double TOL_ORI = 0.08;
 // NOLINTNEXTLINE(runtime/string): overridden in main() via el parametro results_dir
-std::string RESULTADOS = "/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados";
+std::string RESULTADOS = "resultados";
 
 struct Metricas
 {
@@ -259,7 +259,8 @@ bool calcular_estado_aproximacion(
   const geometry_msgs::msg::PoseStamped & contacto,
   const geometry_msgs::msg::PoseStamped & aproximacion,
   std::vector<double> & articulaciones,
-  std::vector<double> * articulaciones_contacto = nullptr)
+  std::vector<double> * articulaciones_contacto = nullptr,
+  bool semilla_aleatoria = false)
 {
   auto estado = grupo.getCurrentState(3.0);
   const auto * jmg = grupo.getRobotModel()->getJointModelGroup("ur_manipulator");
@@ -267,6 +268,11 @@ bool calcular_estado_aproximacion(
     RCLCPP_ERROR(log, "No se pudo obtener el estado del grupo ur_manipulator");
     return false;
   }
+  // El IK numerico converge siempre a la misma rama si parte del mismo
+  // estado semilla. Para explorar ramas alternativas (cuando la primera no
+  // sostiene un descenso cartesiano continuo, ver main()), se puede forzar
+  // una semilla articular aleatoria dentro de los limites del robot.
+  if (semilla_aleatoria) estado->setToRandomPositions(jmg);
 
   // El solver numerico de KDL puede converger a una rama "envuelta" (p.ej.
   // shoulder_pan fuera de [-pi,pi]) que resuelve la pose exacta pero deja el
@@ -336,6 +342,40 @@ void barra_progreso(int hecho, int total, const std::string & planeador, int int
   if (hecho == total) std::fprintf(stderr, "\n");
 }
 
+// El current_state_monitor de MoveGroupInterface corre en el hilo del
+// executor (aparte del hilo principal) y procesa /joint_states de forma
+// asincrona. execute() retorna en cuanto el controlador reporta la
+// trayectoria terminada, pero eso no garantiza que el monitor ya haya
+// procesado el ultimo mensaje de estado: getCurrentState()/getCurrentPose()
+// pueden devolver todavia la pose anterior al movimiento. setStartStateTo-
+// CurrentState() no ayuda porque lee del mismo cache. Por eso, tras cada
+// execute(), se espera activamente (con timeout) a que el estado leido
+// coincida con las articulaciones finales del plan antes de continuar.
+bool esperar_estado_sincronizado(
+  MoveGroup & grupo, const std::vector<double> & meta_articular, double timeout_s = 3.0)
+{
+  const auto * jmg = grupo.getRobotModel()->getJointModelGroup("ur_manipulator");
+  const auto inicio = std::chrono::steady_clock::now();
+  while (std::chrono::duration<double>(
+           std::chrono::steady_clock::now() - inicio).count() < timeout_s)
+  {
+    auto estado = grupo.getCurrentState(0.2);
+    if (estado && jmg) {
+      std::vector<double> actuales;
+      estado->copyJointGroupPositions(jmg, actuales);
+      if (actuales.size() == meta_articular.size()) {
+        double error = 0.0;
+        for (size_t i = 0; i < actuales.size(); ++i) {
+          error = std::max(error, std::abs(actuales[i] - meta_articular[i]));
+        }
+        if (error < 1e-5) return true;
+      }
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  }
+  return false;
+}
+
 bool planificar_y_ejecutar_mejor(
   MoveGroup & grupo, rclcpp::Logger log, const std::string & tramo,
   const geometry_msgs::msg::PoseStamped & meta,
@@ -396,7 +436,13 @@ bool planificar_y_ejecutar_mejor(
   RCLCPP_INFO(
     log, "%s: gana %s intento %d, longitud %.5f rad; se ejecuta solo este, al final",
     tramo.c_str(), mejor->m.planeador.c_str(), mejor->m.intento, mejor->m.longitud);
-  return static_cast<bool>(grupo.execute(mejor->plan));
+  if (!static_cast<bool>(grupo.execute(mejor->plan))) return false;
+  if (!esperar_estado_sincronizado(grupo, articulaciones_meta)) {
+    RCLCPP_WARN(
+      log, "%s: el estado leido tras execute() no convergio a la meta dentro del timeout",
+      tramo.c_str());
+  }
+  return true;
 }
 
 double ley(double tau, bool quintico)
@@ -525,16 +571,37 @@ Perfil temporizar(
   // realmente una restricción sobre la velocidad del TCP.
   const auto modelo = grupo.getRobotModel();
   moveit::core::RobotState estado(modelo);
-  std::vector<double> l(t.points.size(), 0.0);
-  Eigen::Vector3d anterior = Eigen::Vector3d::Zero();
+
+  // computeCartesianPath con un eef_step fino puede repetir dos waypoints
+  // casi identicos en el espacio cartesiano (ruido numerico de la IK). Sin
+  // filtrarlos, la reparametrizacion por longitud de arco les asigna un
+  // intervalo de tiempo casi nulo, y la diferencia finita de velocidad TCP
+  // produce una aceleracion artificialmente enorme. Se descartan los puntos
+  // cuyo avance cartesiano es despreciable, conservando siempre el primero
+  // y el ultimo.
+  constexpr double INCREMENTO_MINIMO_M = 1e-5;
+  std::vector<Eigen::Vector3d> posiciones(t.points.size());
   for (std::size_t i = 0; i < t.points.size(); ++i) {
     estado.setVariablePositions(t.joint_names, t.points[i].positions);
     estado.update();
-    const Eigen::Vector3d actual = estado.getGlobalLinkTransform("tool0").translation();
-    if (i > 0) l[i] = l[i - 1] + (actual - anterior).norm();
-    anterior = actual;
+    posiciones[i] = estado.getGlobalLinkTransform("tool0").translation();
   }
-  if (l.back() <= 1e-12) {
+  std::vector<trajectory_msgs::msg::JointTrajectoryPoint> filtrados;
+  std::vector<Eigen::Vector3d> posiciones_filtradas;
+  for (std::size_t i = 0; i < t.points.size(); ++i) {
+    const bool es_extremo = (i == 0 || i == t.points.size() - 1);
+    if (es_extremo || (posiciones[i] - posiciones_filtradas.back()).norm() > INCREMENTO_MINIMO_M) {
+      filtrados.push_back(t.points[i]);
+      posiciones_filtradas.push_back(posiciones[i]);
+    }
+  }
+  t.points = std::move(filtrados);
+
+  std::vector<double> l(t.points.size(), 0.0);
+  for (std::size_t i = 1; i < posiciones_filtradas.size(); ++i) {
+    l[i] = l[i - 1] + (posiciones_filtradas[i] - posiciones_filtradas[i - 1]).norm();
+  }
+  if (t.points.size() < 2 || l.back() <= 1e-12) {
     r.motivo = "sin movimiento cartesiano";
     return r;
   }
@@ -619,9 +686,23 @@ void guardar_perfil_seleccionado(const std::string & tramo, const Perfil & perfi
 bool mover_cartesiano(
   MoveGroup & grupo, rclcpp::Logger log, const std::string & tramo,
   const geometry_msgs::msg::PoseStamped & meta, double vmax, double amax,
-  const std::string & perfil_forzado, std::string * perfil_elegido)
+  const std::string & perfil_forzado, std::string * perfil_elegido,
+  bool solo_verificar = false, const moveit::core::RobotState * estado_inicio = nullptr)
 {
-  const auto actual = grupo.getCurrentPose("tool0");
+  // getCurrentPose()/getCurrentState() siempre leen el estado FISICO real del
+  // current_state_monitor, sin importar si antes se llamo a setStartState()
+  // con un estado forzado (eso solo afecta a plan()/computeCartesianPath()).
+  // Si se pasa un estado_inicio explicito (verificacion en seco de una rama,
+  // sin mover el robot), la pose de partida debe calcularse por FK de ESE
+  // estado, no de la pose fisica real.
+  geometry_msgs::msg::PoseStamped actual;
+  if (estado_inicio != nullptr) {
+    const auto & tf = estado_inicio->getGlobalLinkTransform("tool0");
+    actual.header.frame_id = "base_link";
+    actual.pose = tf2::toMsg(tf);
+  } else {
+    actual = grupo.getCurrentPose("tool0");
+  }
   std::vector<geometry_msgs::msg::Pose> waypoints;
 
   // El taller pide entre 3 y 4 waypoints intermedios. Aquí se usan cuatro
@@ -636,50 +717,86 @@ bool mover_cartesiano(
     waypoints.push_back(p);
   }
 
-  moveit_msgs::msg::RobotTrajectory msg;
-  // Paso fino (2 mm) para que la IK numerica de cada tramo permanezca cerca
-  // de la solucion anterior y no pierda continuidad de rama cerca de PICK/PLACE.
-  const double fraccion = grupo.computeCartesianPath(waypoints, 0.002, msg, true);
-  if (fraccion < 0.999) {
-    RCLCPP_ERROR(
-      log, "%s: computeCartesianPath alcanzo %.1f%%; no se ejecuta una trayectoria parcial",
-      tramo.c_str(), fraccion * 100.0);
-    return false;
+  if (estado_inicio != nullptr) {
+    // Verificacion en seco: se planifica desde el estado forzado por el
+    // llamador (buscar_rama_continua), no desde el estado fisico real.
+    grupo.setStartState(*estado_inicio);
+  } else {
+    // computeCartesianPath usa el estado interno que MoveGroupInterface tiene
+    // cacheado, que puede no haberse actualizado todavia tras la ejecucion
+    // anterior (el current_state_monitor procesa /joint_states de forma
+    // asincrona). Sin esto, a veces interpola desde una pose vieja (HOME) en
+    // vez de "actual", produciendo una trayectoria mucho mas larga de lo
+    // esperado y disparando falsas violaciones de aceleracion TCP.
+    grupo.setStartStateToCurrentState();
   }
 
-  MoveGroup::Plan geometria;
-  geometria.trajectory = msg;
   const double dx = meta.pose.position.x - actual.pose.position.x;
   const double dy = meta.pose.position.y - actual.pose.position.y;
   const double dz = meta.pose.position.z - actual.pose.position.z;
   const double distancia = std::sqrt(dx * dx + dy * dy + dz * dz);
 
-  // La misma geometría cartesiana se reparametriza temporalmente con las dos
-  // leyes. La geometría y el perfil temporal son conceptos distintos.
-  std::vector<Perfil> perfiles = {
-    temporizar(grupo, geometria, "cubico", distancia, vmax, amax),
-    temporizar(grupo, geometria, "quintico", distancia, vmax, amax)};
+  // La IK numerica interna de computeCartesianPath no siempre converge de
+  // forma continua en este descenso (orientacion fija, tramo casi vertical):
+  // unas veces se detiene antes de completar la linea (autocolision o sin
+  // solucion en un paso intermedio) y otras la completa pero con un salto
+  // puntual entre dos pasos consecutivos de 2 mm, que se traduce en un pico
+  // de aceleracion del TCP muy por encima de lo fisicamente esperado para
+  // esa distancia. Igual que en 4A (donde se generan 20 planes OMPL y se
+  // valida cada uno), aqui se repite el calculo geometrico varias veces y
+  // solo se acepta una geometria cuya reparametrizacion cubica o quintica
+  // cumpla de verdad las restricciones del enunciado.
+  constexpr int INTENTOS_CARTESIANOS = 15;
+  std::vector<Perfil> todos;
+  int completos = 0;
+  for (int intento = 1; intento <= INTENTOS_CARTESIANOS; ++intento) {
+    moveit_msgs::msg::RobotTrajectory msg;
+    // Paso fino (2 mm) para que la IK numerica de cada tramo permanezca cerca
+    // de la solucion anterior y no pierda continuidad de rama cerca de PICK/PLACE.
+    const double fraccion = grupo.computeCartesianPath(waypoints, 0.002, msg, true);
+    if (fraccion < 0.999) {
+      RCLCPP_INFO(
+        log, "%s: intento %d/%d de geometria cartesiana alcanzo %.1f%% (descartado)",
+        tramo.c_str(), intento, INTENTOS_CARTESIANOS, fraccion * 100.0);
+      continue;
+    }
+    ++completos;
 
-  // computeCartesianPath comprobó colisiones. validar() comprueba además meta,
-  // límites articulares, velocidad, aceleración y valores finitos.
-  for (auto & p : perfiles) {
-    if (p.valido) p.valido = validar(grupo, p.plan, meta, p.motivo);
+    MoveGroup::Plan geometria;
+    geometria.trajectory = msg;
+    // La misma geometría cartesiana se reparametriza temporalmente con las
+    // dos leyes. La geometría y el perfil temporal son conceptos distintos.
+    std::array<Perfil, 2> perfiles = {
+      temporizar(grupo, geometria, "cubico", distancia, vmax, amax),
+      temporizar(grupo, geometria, "quintico", distancia, vmax, amax)};
+
+    // computeCartesianPath comprobó colisiones. validar() comprueba además
+    // meta, límites articulares, velocidad, aceleración y valores finitos.
+    bool alguno_valido = false;
+    for (auto & p : perfiles) {
+      if (p.valido) p.valido = validar(grupo, p.plan, meta, p.motivo);
+      RCLCPP_INFO(
+        log, "%s: intento %d/%d %s: T=%.3f s suavidad=%.6f vmax_tcp=%.4f amax_tcp=%.4f, %s",
+        tramo.c_str(), intento, INTENTOS_CARTESIANOS, p.nombre.c_str(), p.duracion, p.suavidad,
+        p.max_vel_tcp, p.max_acc_tcp, p.motivo.c_str());
+      if (p.valido && (perfil_forzado.empty() || p.nombre == perfil_forzado)) alguno_valido = true;
+      todos.push_back(std::move(p));
+    }
+    if (alguno_valido) break;  // geometria valida encontrada; no hace falta seguir probando
   }
-  guardar_perfiles(tramo, perfiles, vmax, amax);
+
+  RCLCPP_INFO(
+    log, "%s: %d de %d intentos de geometria cartesiana completaron la linea al 100%%",
+    tramo.c_str(), completos, INTENTOS_CARTESIANOS);
+  if (!solo_verificar) guardar_perfiles(tramo, todos, vmax, amax);
 
   const Perfil * mejor = nullptr;
-  for (const auto & p : perfiles) {
-    RCLCPP_INFO(
-      log, "%s/%s: T=%.3f s suavidad=%.6f vmax_tcp=%.4f amax_tcp=%.4f, %s",
-      tramo.c_str(), p.nombre.c_str(), p.duracion, p.suavidad, p.max_vel_tcp,
-      p.max_acc_tcp, p.motivo.c_str());
-
+  for (const auto & p : todos) {
     if (!p.valido) continue;
     if (!perfil_forzado.empty()) {
       if (p.nombre == perfil_forzado) mejor = &p;
       continue;
     }
-
     // El indicador guardado es variación acumulada de aceleración: menor
     // valor equivale a mayor suavidad. En empate se prefiere menor duración.
     if (!mejor || std::tie(p.suavidad, p.duracion) <
@@ -691,7 +808,9 @@ bool mover_cartesiano(
 
   if (!mejor) {
     if (perfil_forzado.empty()) {
-      RCLCPP_ERROR(log, "%s: ningun perfil valido", tramo.c_str());
+      RCLCPP_ERROR(
+        log, "%s: ningun perfil valido en %d intentos de geometria cartesiana",
+        tramo.c_str(), INTENTOS_CARTESIANOS);
     } else {
       RCLCPP_ERROR(
         log, "%s: el perfil seleccionado en 4B (%s) no es valido en este tramo",
@@ -701,10 +820,26 @@ bool mover_cartesiano(
   }
 
   if (perfil_elegido != nullptr) *perfil_elegido = mejor->nombre;
+  if (solo_verificar) {
+    RCLCPP_INFO(
+      log, "%s: rama verificada en seco, perfil %s es fisicamente valido (no se ejecuta)",
+      tramo.c_str(), mejor->nombre.c_str());
+    return true;
+  }
   guardar_perfil_seleccionado(tramo, *mejor);
   RCLCPP_INFO(
     log, "%s: se ejecuta solo el perfil %s", tramo.c_str(), mejor->nombre.c_str());
-  return static_cast<bool>(grupo.execute(mejor->plan));
+  if (!static_cast<bool>(grupo.execute(mejor->plan))) return false;
+  if (!mejor->plan.trajectory.joint_trajectory.points.empty()) {
+    if (!esperar_estado_sincronizado(
+          grupo, mejor->plan.trajectory.joint_trajectory.points.back().positions))
+    {
+      RCLCPP_WARN(
+        log, "%s: el estado leido tras execute() no convergio a la meta dentro del timeout",
+        tramo.c_str());
+    }
+  }
+  return true;
 }
 
 bool mover_home(MoveGroup & grupo, rclcpp::Logger log)
@@ -718,7 +853,11 @@ bool mover_home(MoveGroup & grupo, rclcpp::Logger log)
     RCLCPP_ERROR(log, "No se pudo planificar HOME");
     return false;
   }
-  return static_cast<bool>(grupo.execute(plan));
+  if (!static_cast<bool>(grupo.execute(plan))) return false;
+  if (!plan.trajectory.joint_trajectory.points.empty()) {
+    esperar_estado_sincronizado(grupo, plan.trajectory.joint_trajectory.points.back().positions);
+  }
+  return true;
 }
 
 // Salto directo a una configuracion articular (p.ej. PICK), sin pasar por los
@@ -736,7 +875,64 @@ bool mover_directo(
     RCLCPP_ERROR(log, "No se pudo planificar el salto directo a %s", nombre);
     return false;
   }
-  return static_cast<bool>(grupo.execute(plan));
+  if (!static_cast<bool>(grupo.execute(plan))) return false;
+  esperar_estado_sincronizado(grupo, articulaciones);
+  return true;
+}
+
+// calcular_estado_aproximacion() sólo exige que la rama IK sea continua
+// entre "aproximacion" y "contacto" (limites articulares, sin envolvimiento).
+// Eso no garantiza que el descenso cartesiano posterior (computeCartesianPath,
+// paso a paso) sea fisicamente suave: segun la rama, puede quedar cerca de
+// una configuracion mal condicionada y producir saltos articulares puntuales
+// que disparan la aceleracion del TCP muy por encima del limite del taller.
+// Aqui se prueban varias ramas (primero la semilla natural, luego semillas
+// aleatorias) y, para cada una, se verifica en seco -sin mover el robot
+// fisico, con un estado de partida forzado- que el tramo cartesiano completo
+// cumple v <= vmax y a <= amax. Solo se acepta una rama que ya pasó esa
+// prueba antes de comprometerse a ejecutar el movimiento articular real.
+bool buscar_rama_continua(
+  MoveGroup & grupo, rclcpp::Logger log, const std::string & tramo,
+  const geometry_msgs::msg::PoseStamped & contacto,
+  const geometry_msgs::msg::PoseStamped & aproximacion,
+  double vmax, double amax, std::vector<double> & articulaciones)
+{
+  constexpr int INTENTOS_RAMA = 6;
+  const auto * jmg = grupo.getRobotModel()->getJointModelGroup("ur_manipulator");
+  bool encontrada = false;
+  for (int intento = 1; intento <= INTENTOS_RAMA && !encontrada; ++intento) {
+    std::vector<double> candidata;
+    if (!calcular_estado_aproximacion(
+          grupo, log, contacto, aproximacion, candidata, nullptr, intento > 1))
+    {
+      continue;
+    }
+
+    auto estado_prueba = grupo.getCurrentState(3.0);
+    if (!estado_prueba || !jmg) continue;
+    estado_prueba->setJointGroupPositions(jmg, candidata);
+    estado_prueba->update();
+
+    std::string perfil_dummy;
+    const bool geom_ok = mover_cartesiano(
+      grupo, log, tramo + "_verificacion_rama", contacto, vmax, amax, "", &perfil_dummy, true,
+      estado_prueba.get());
+    grupo.setStartStateToCurrentState();
+
+    RCLCPP_INFO(
+      log, "%s: verificacion de rama %d/%d %s", tramo.c_str(), intento, INTENTOS_RAMA,
+      geom_ok ? "OK, se usa esta rama" : "no sostiene un descenso cartesiano suave");
+    if (geom_ok) {
+      articulaciones = candidata;
+      encontrada = true;
+    }
+  }
+  if (!encontrada) {
+    RCLCPP_ERROR(
+      log, "%s: ninguna de %d ramas IK sostiene un descenso cartesiano valido",
+      tramo.c_str(), INTENTOS_RAMA);
+  }
+  return encontrada;
 }
 }  // namespace
 
@@ -784,6 +980,22 @@ int main(int argc, char ** argv)
   grupo.setMaxVelocityScalingFactor(0.20);
   grupo.setMaxAccelerationScalingFactor(0.20);
   grupo.allowReplanning(false);
+
+  // El current_state_monitor recien creado no tiene ningun /joint_states
+  // procesado todavia. Si se planifica antes de que llegue el primero, el
+  // estado de partida queda en los valores por defecto del modelo (no la
+  // pose fisica real), y el controlador aborta la ejecucion de inmediato
+  // porque el primer punto de la trayectoria no coincide con el estado real.
+  // getCurrentState(timeout) espera activamente a que llegue un estado
+  // completo antes de continuar.
+  if (!grupo.getCurrentState(5.0)) {
+    RCLCPP_ERROR(
+      nodo->get_logger(), "No se recibio el estado inicial del robot (/joint_states)");
+    executor.cancel();
+    hilo.join();
+    rclcpp::shutdown();
+    return 1;
+  }
 
   moveit::planning_interface::PlanningSceneInterface escena;
   const auto objetos = escena.getKnownObjectNames();
@@ -843,8 +1055,8 @@ int main(int argc, char ** argv)
   exito = exito && mover_home(grupo, nodo->get_logger());
 
   std::vector<double> q_pre_pick;
-  exito = exito && calcular_estado_aproximacion(
-    grupo, nodo->get_logger(), pick, pre_pick, q_pre_pick);
+  exito = exito && buscar_rama_continua(
+    grupo, nodo->get_logger(), "4B", pick, pre_pick, 0.200, 0.300, q_pre_pick);
 
   // 4A: primero se llevan todos los experimentos a la misma condición HOME.
   exito = exito && planificar_y_ejecutar_mejor(
@@ -874,8 +1086,8 @@ int main(int argc, char ** argv)
     // 4C parte realmente desde PICK y mantiene la pieza adjunta. No se inserta
     // un retiro cartesiano extra, para respetar la definición del taller.
     std::vector<double> q_pre_place;
-    exito = calcular_estado_aproximacion(
-      grupo, nodo->get_logger(), place, pre_place, q_pre_place);
+    exito = buscar_rama_continua(
+      grupo, nodo->get_logger(), "4D", place, pre_place, 0.100, 0.020, q_pre_place);
     exito = exito && planificar_y_ejecutar_mejor(
       grupo, nodo->get_logger(), "4C_pick_pre_place", pre_place, q_pre_place);
   }
