@@ -4,6 +4,10 @@ Entrega independiente del taller de cinemática y planeación de movimiento con 
 
 Configuración propia de MoveIt 2 para un UR5 clásico construida desde su URDF/Xacro: PlanningScene, comparación RRTConnect/RRTstar, ciclo pick-and-place con perfiles cúbico/quíntico, validación DH y Jacobiano.
 
+## Video explicativo
+
+https://youtu.be/YXWZHgybhms
+
 ## Requisitos
 
 - Ubuntu con ROS 2 Jazzy, MoveIt 2, RViz 2, ros2_control, `xacro`, `check_urdf`.
