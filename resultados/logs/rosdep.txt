@@ -1,0 +1,7 @@
+/usr/bin/rosdep:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+ERROR: the following packages/stacks could not have their rosdep keys resolved
+to system dependencies:
+ur5_moveit_config: Cannot locate rosdep definition for [warehouse_ros_mongo]
+Continuing to install resolvable dependencies...
+#All required rosdeps installed successfully

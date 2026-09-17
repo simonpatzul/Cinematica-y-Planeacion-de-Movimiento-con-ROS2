@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WS="/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WS="$(cd "$SCRIPT_DIR/.." && pwd)"
 RESULTADOS="$WS/resultados"
 
 if [[ ! -f /opt/ros/jazzy/setup.bash ]]; then
@@ -10,7 +11,7 @@ if [[ ! -f /opt/ros/jazzy/setup.bash ]]; then
 fi
 
 cd "$WS"
-mkdir -p "$RESULTADOS"
+mkdir -p "$RESULTADOS/ros2" "$RESULTADOS/logs"
 source /opt/ros/jazzy/setup.bash
 
 echo "[1/6] Dependencias"
@@ -18,23 +19,23 @@ rosdep install --from-paths src --ignore-src -r -y
 
 echo "[2/6] Compilación limpia"
 rm -rf build install log
-colcon build --symlink-install 2>&1 | tee "$RESULTADOS/compilacion_final.txt"
+colcon build --symlink-install 2>&1 | tee "$RESULTADOS/logs/compilacion_final.txt"
 source install/setup.bash
 
 echo "[3/6] Xacro + check_urdf"
 xacro src/ur5_description/urdf/ur5.urdf.xacro > /tmp/ur5_taller.urdf
-check_urdf /tmp/ur5_taller.urdf 2>&1 | tee "$RESULTADOS/check_urdf.txt"
+check_urdf /tmp/ur5_taller.urdf 2>&1 | tee "$RESULTADOS/ros2/check_urdf.txt"
 
 echo "[4/6] Paquetes y ejecutables"
 ros2 pkg list | grep -E '^ur5_(description|moveit_config|pick_place)$'
-ros2 pkg executables ur5_pick_place | tee "$RESULTADOS/ejecutables_ur5_pick_place.txt"
+ros2 pkg executables ur5_pick_place | tee "$RESULTADOS/logs/ejecutables_ur5_pick_place.txt"
 
 echo "[5/6] Perfiles Python"
-python3 src/ur5_pick_place/scripts/trajectory_profiles.py --output-dir "$RESULTADOS" \
-  | tee "$RESULTADOS/perfiles_terminal.txt"
+python3 src/ur5_pick_place/scripts/trajectory_profiles.py --output-dir "$RESULTADOS/tablas" \
+  | tee "$RESULTADOS/logs/perfiles_terminal.txt"
 
 echo "[6/6] Verificación estática"
-python3 scripts/verificar_workspace.py | tee "$RESULTADOS/verificacion_estatica.txt"
+python3 scripts/verificar_workspace.py | tee "$RESULTADOS/ros2/verificacion_estatica.txt"
 
 cat <<'TXT'
 

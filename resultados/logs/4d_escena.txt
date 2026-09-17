@@ -1,0 +1,1 @@
+[INFO] [1789612190.984771193] [ur5_planning_scene_setup]: Escena aplicada: pick_surface, place_surface, workpiece y obstacle en base_link

@@ -2,9 +2,9 @@
 
 Esta guía sigue el orden del taller y funciona como informe técnico, manual de ejecución, guía de estudio y guion de sustentación. El taller exige construir una configuración propia de MoveIt 2 desde el URDF/Xacro, comparar TF/MoveIt con DH, resolver IK de pick/place, ejecutar un ciclo pick-and-place con comparación de planeadores y perfiles, y comparar Jacobianos. No se presentan métricas inventadas.
 
-> **Regla de evidencia.** Los archivos de `resultados/historico_ejecucion_2026-09-15/` son evidencia real de una ejecución anterior a la última corrección y se conservan sólo como historial; no deben confundirse con los resultados finales.
+> **Regla de evidencia.** Los archivos de `resultados/historico/ejecucion_2026-09-15/` son evidencia real de una ejecución anterior a la última corrección y se conservan sólo como historial; no deben confundirse con los resultados finales.
 
-> **Ejecución final (2026-09-16).** Esta versión sí se compiló y ejecutó completa en ROS 2 Jazzy sobre `/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws`: `colcon build` sin errores, `xacro`/`check_urdf` correctos, MoveIt 2 + RViz + controladores activos, HOME/TF/DH, IK de PICK/PLACE, 4A/4B/4C/4D con la pieza adjuntada y liberada, ciclo FULL ejecutado 3 veces de forma reproducible, y Jacobianos HOME/PICK/PLACE/4B/4D con error numérico ~1e-9 frente a DH. Durante la ejecución se encontraron y corrigieron varios errores reales (detallados en `ENTREGA_FINAL.md`), entre ellos una orientación mal normalizada en `pick_place_sequence.cpp` que causaba fallos intermitentes de `computeCartesianPath` en 4B/4D.
+> **Ejecución final (2026-09-16).** Esta versión sí se compiló y ejecutó completa en ROS 2 Jazzy sobre `<ruta_del_repositorio>`: `colcon build` sin errores, `xacro`/`check_urdf` correctos, MoveIt 2 + RViz + controladores activos, HOME/TF/DH, IK de PICK/PLACE, 4A/4B/4C/4D con la pieza adjuntada y liberada, ciclo FULL ejecutado 3 veces de forma reproducible, y Jacobianos HOME/PICK/PLACE/4B/4D con error numérico ~1e-9 frente a DH. Durante la ejecución se encontraron y corrigieron varios errores reales (detallados en `EVIDENCIA_COMPLETA_TALLER.md`), entre ellos una orientación mal normalizada en `pick_place_sequence.cpp` que causaba fallos intermitentes de `computeCartesianPath` en 4B/4D.
 
 
 ## 0. Preparación del workspace
@@ -23,11 +23,11 @@ El workspace contiene tres paquetes (`ur5_description`, `ur5_moveit_config`, `ur
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 rosdep install --from-paths src --ignore-src -r -y
 rm -rf build install log
-colcon build --symlink-install 2>&1 | tee resultados/compilacion_final.txt
+colcon build --symlink-install 2>&1 | tee resultados/logs/compilacion_final.txt
 source install/setup.bash
 ros2 pkg list | grep -E '^ur5_(description|moveit_config|pick_place)$'
 ros2 pkg executables ur5_pick_place
@@ -36,7 +36,7 @@ ros2 pkg executables ur5_pick_place
 La compilación debe terminar con 3 paquetes sin errores. Deben aparecer cinco ejecutables de `ur5_pick_place`: `planning_scene_setup`, `plan_pre_pick`, `move_named_state`, `pick_place_sequence` y `kinematics_report`.
 
 #### 6. Evidencia generada
-`resultados/compilacion_final.txt`. Como referencia histórica: `resultados/historico_ejecucion_2026-09-15/build_ur5_pick_place_2026-09-15_19-40-00.log`.
+`resultados/logs/compilacion_final.txt`. Como referencia histórica: `resultados/historico/ejecucion_2026-09-15/build_ur5_pick_place_2026-09-15_19-40-00.log`.
 
 #### 7. Cómo explicarlo en la sustentación
 “Primero cargo Jazzy, compilo el overlay y después cargo `install/setup.bash`; así ROS ve exactamente mis paquetes y ejecutables.”
@@ -61,7 +61,7 @@ Se conserva `ur5_description` y se corrigió su `package.xml`; no se reemplazó 
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 pkg prefix ur5_description
@@ -92,17 +92,17 @@ Los Xacro se revisaron como XML y están estructuralmente bien formados; el coma
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 xacro src/ur5_description/urdf/ur5.urdf.xacro > /tmp/ur5_taller.urdf
-check_urdf /tmp/ur5_taller.urdf | tee resultados/check_urdf.txt
+check_urdf /tmp/ur5_taller.urdf | tee resultados/ros2/check_urdf.txt
 ```
 #### 5. Resultado esperado
 `xacro` debe generar `/tmp/ur5_taller.urdf` y `check_urdf` debe aceptar el árbol sin errores.
 
 #### 6. Evidencia generada
-`resultados/check_urdf.txt` después de ejecutarlo en Jazzy.
+`resultados/ros2/check_urdf.txt` después de ejecutarlo en Jazzy.
 
 #### 7. Cómo explicarlo en la sustentación
 “Xacro genera el URDF concreto; `check_urdf` verifica sintaxis y relaciones padre-hijo.”
@@ -124,8 +124,8 @@ El macro del UR5 conserva las secciones `visual`/`collision` y sus mallas/geomé
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -nE '<visual>|<collision>' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_description/urdf/ur_macro.xacro | head -n 30
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+grep -nE '<visual>|<collision>' <ruta_del_repositorio>/src/ur5_description/urdf/ur_macro.xacro | head -n 30
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 launch ur5_description view_ur.launch.py
@@ -156,7 +156,7 @@ El SRDF define una cadena de `base_link` a `tool0`.
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -n -A2 'group name="ur_manipulator"' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_moveit_config/config/ur5.srdf
+grep -n -A2 'group name="ur_manipulator"' <ruta_del_repositorio>/src/ur5_moveit_config/config/ur5.srdf
 ```
 #### 5. Resultado esperado
 Debe verse la cadena `base_link -> tool0`.
@@ -184,8 +184,8 @@ El SRDF contiene `HOME` y `READY`; HOME usa la configuración académica del tal
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -n -A8 '<group_state' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_moveit_config/config/ur5.srdf
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+grep -n -A8 '<group_state' <ruta_del_repositorio>/src/ur5_moveit_config/config/ur5.srdf
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place move_named_state --ros-args -p target:=HOME -p execute:=false
@@ -217,7 +217,7 @@ MoveIt usa `joint_limits.yaml` para las seis articulaciones; la secuencia valida
 
 #### 4. Comandos para demostrarlo
 ```bash
-cat /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_moveit_config/config/joint_limits.yaml
+cat <ruta_del_repositorio>/src/ur5_moveit_config/config/joint_limits.yaml
 ```
 #### 5. Resultado esperado
 Deben verse límites para las seis articulaciones del UR5.
@@ -245,7 +245,7 @@ El SRDF contiene siete pares `disable_collisions` generados para enlaces adyacen
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -n 'disable_collisions' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_moveit_config/config/ur5.srdf
+grep -n 'disable_collisions' <ruta_del_repositorio>/src/ur5_moveit_config/config/ur5.srdf
 ```
 #### 5. Resultado esperado
 Deben listarse los pares deshabilitados.
@@ -273,7 +273,7 @@ Configurar KDL como solver de cinemática inversa.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cat /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_moveit_config/config/kinematics.yaml
+cat <ruta_del_repositorio>/src/ur5_moveit_config/config/kinematics.yaml
 ```
 #### 5. Resultado esperado
 Debe aparecer el plugin KDL, resolución y timeout.
@@ -301,7 +301,7 @@ Visualizar el modelo y la configuración MoveIt en RViz2.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 QT_QPA_PLATFORM=xcb ros2 launch ur5_moveit_config demo.launch.py
@@ -332,7 +332,7 @@ Demostrar que la configuración propia fue creada desde el URDF/Xacro.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 cat src/ur5_moveit_config/.setup_assistant
@@ -367,7 +367,7 @@ Colocar el robot en HOME antes de medir transformaciones.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place move_named_state --ros-args -p target:=HOME -p execute:=true
@@ -398,7 +398,7 @@ Se usa `tf2_echo`; el nuevo `kinematics_report` también guarda XYZ, cuaternión
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run tf2_ros tf2_echo base_link tool0
@@ -407,7 +407,7 @@ ros2 run tf2_ros tf2_echo base_link tool0
 TF2 debe imprimir translation y quaternion continuamente. Detener con `Ctrl+C`.
 
 #### 6. Evidencia generada
-Guardar una muestra en `resultados/tf_HOME_tool0.txt` con `timeout` o redirección si se desea.
+Guardar una muestra en `resultados/ros2/tf_HOME_tool0.txt` con `timeout` o redirección si se desea.
 
 #### 7. Cómo explicarlo en la sustentación
 “TF2 da la transformación publicada por el árbol real de ROS.”
@@ -429,7 +429,7 @@ Se documentan exactamente los siete `tf2_echo` solicitados.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run tf2_ros tf2_echo base_link shoulder_link
@@ -445,7 +445,7 @@ ros2 run tf2_ros tf2_echo base_link tool0
 Cada comando debe encontrar el frame y publicar su transformación respecto a `base_link`.
 
 #### 6. Evidencia generada
-`resultados/tf_frames_HOME.txt` si se capturan las salidas.
+`resultados/ros2/tf_frames_HOME.txt` si se capturan las salidas.
 
 #### 7. Cómo explicarlo en la sustentación
 “Cada link tiene un frame; TF encadena las transformaciones hasta la base.”
@@ -467,11 +467,11 @@ Dependencia ROS `tf2_tools`.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 pkg prefix tf2_tools
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados
+cd <ruta_del_repositorio>/resultados
 ros2 run tf2_tools view_frames
 ls -lh frames.pdf
 ```
@@ -479,7 +479,7 @@ ls -lh frames.pdf
 Debe crearse `frames.pdf` con la cadena de frames del UR5.
 
 #### 6. Evidencia generada
-`resultados/frames.pdf`.
+`resultados/imagenes/frames.pdf`.
 
 #### 7. Cómo explicarlo en la sustentación
 “El árbol TF muestra gráficamente quién es padre de quién y comprueba que `tool0` es alcanzable desde `base_link`.”
@@ -501,16 +501,16 @@ Obtener pose y seis valores articulares en HOME desde MoveIt.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
-ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME -p results_dir:=/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados
+ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME -p results_dir:=<ruta_del_repositorio>/resultados
 ```
 #### 5. Resultado esperado
 Debe generar `kinematics_HOME.txt` y `.csv`.
 
 #### 6. Evidencia generada
-Archivos `resultados/kinematics_HOME.*` regenerados con la versión final. Existe evidencia histórica en la carpeta `historico_ejecucion_2026-09-15`.
+Archivos `resultados/ros2/kinematics_HOME.*` regenerados con la versión final. Existe evidencia histórica en la carpeta `historico_ejecucion_2026-09-15`.
 
 #### 7. Cómo explicarlo en la sustentación
 “MoveIt usa el mismo modelo del robot y me permite extraer estado articular y pose del efector.”
@@ -532,7 +532,7 @@ Se incluye un modelo DH modificado del UR5 clásico en C++ y MATLAB; `UR5_DH_VAL
 
 #### 4. Comandos para demostrarlo
 ```matlab
-cd('/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/matlab');
+cd('<ruta_del_repositorio>/matlab');
 UR5_DH_VALIDACION
 ```
 #### 5. Resultado esperado
@@ -561,7 +561,7 @@ El ejecutable calcula T_MoveIt, T_DH y su matriz de error. El historial real mos
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME
@@ -570,7 +570,7 @@ ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME
 Las dos matrices deben coincidir dentro del error numérico si convención y frames son los mismos.
 
 #### 6. Evidencia generada
-`resultados/kinematics_HOME.txt` final; historial real disponible para trazabilidad.
+`resultados/ros2/kinematics_HOME.txt` final; historial real disponible para trazabilidad.
 
 #### 7. Cómo explicarlo en la sustentación
 “No comparo sólo XYZ: comparo la matriz homogénea completa.”
@@ -592,17 +592,17 @@ La versión final calcula norma de traslación, ángulo de rotación relativa y 
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME
-grep -E 'Error de posicion|Error de orientacion|Error maximo de la matriz' resultados/kinematics_HOME.txt
+grep -E 'Error de posicion|Error de orientacion|Error maximo de la matriz' resultados/ros2/kinematics_HOME.txt
 ```
 #### 5. Resultado esperado
 Los tres errores deben quedar explícitos y finitos.
 
 #### 6. Evidencia generada
-`resultados/kinematics_HOME.txt/.csv`.
+`resultados/ros2/kinematics_HOME.txt/.csv`.
 
 #### 7. Cómo explicarlo en la sustentación
 “El error de posición está en metros; el angular en radianes; el error máximo revisa cualquier elemento de la 4x4.”
@@ -627,7 +627,7 @@ PICK se define en `(0.65, -0.30, 0.12) m` con orientación de herramienta hacia 
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -n 'const auto pick' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_pick_place/src/pick_place_sequence.cpp
+grep -n 'const auto pick' <ruta_del_repositorio>/src/ur5_pick_place/src/pick_place_sequence.cpp
 ```
 #### 5. Resultado esperado
 Debe verse la pose PICK distinta de HOME.
@@ -655,7 +655,7 @@ Resolver PICK con MoveIt/KDL.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PICK
@@ -664,7 +664,7 @@ ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PICK
 Debe indicar seis valores articulares y generar archivos.
 
 #### 6. Evidencia generada
-`resultados/kinematics_PICK.*`; existe una ejecución histórica real.
+`resultados/ros2/kinematics_PICK.*`; existe una ejecución histórica real.
 
 #### 7. Cómo explicarlo en la sustentación
 “IK obtiene q a partir de la pose cartesiana; puede existir más de una rama.”
@@ -686,13 +686,13 @@ El reporte imprime `shoulder_pan`, `shoulder_lift`, `elbow`, `wrist_1`, `wrist_2
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -A7 'Orden de articulaciones' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados/kinematics_PICK.txt
+grep -A7 'Orden de articulaciones' <ruta_del_repositorio>/resultados/ros2/kinematics_PICK.txt
 ```
 #### 5. Resultado esperado
 Deben aparecer exactamente seis q en radianes.
 
 #### 6. Evidencia generada
-`resultados/kinematics_PICK.txt`.
+`resultados/ros2/kinematics_PICK.txt`.
 
 #### 7. Cómo explicarlo en la sustentación
 “Siempre indico nombre y orden para no llevar ángulos a la columna DH equivocada.”
@@ -742,7 +742,7 @@ PLACE se define en `(0.65, +0.30, 0.12) m`, con la misma orientación hacia abaj
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -n 'const auto place' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/src/ur5_pick_place/src/pick_place_sequence.cpp
+grep -n 'const auto place' <ruta_del_repositorio>/src/ur5_pick_place/src/pick_place_sequence.cpp
 ```
 #### 5. Resultado esperado
 Debe verse Y positivo y Z de contacto.
@@ -770,7 +770,7 @@ Se reutiliza el mismo solver y la misma convención de frames.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PLACE
@@ -779,7 +779,7 @@ ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PLACE
 Debe encontrarse una configuración válida y guardarse.
 
 #### 6. Evidencia generada
-`resultados/kinematics_PLACE.*`; existe una ejecución histórica real.
+`resultados/ros2/kinematics_PLACE.*`; existe una ejecución histórica real.
 
 #### 7. Cómo explicarlo en la sustentación
 “Uso el mismo solver para que la comparación PICK/PLACE sea consistente.”
@@ -801,13 +801,13 @@ El reporte usa los nombres del JointModelGroup en el orden real de MoveIt.
 
 #### 4. Comandos para demostrarlo
 ```bash
-grep -A7 'Orden de articulaciones' /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados/kinematics_PLACE.txt
+grep -A7 'Orden de articulaciones' <ruta_del_repositorio>/resultados/ros2/kinematics_PLACE.txt
 ```
 #### 5. Resultado esperado
 Seis q en radianes.
 
 #### 6. Evidencia generada
-`resultados/kinematics_PLACE.txt`.
+`resultados/ros2/kinematics_PLACE.txt`.
 
 #### 7. Cómo explicarlo en la sustentación
 “La trazabilidad del orden articular es parte de la validación.”
@@ -857,11 +857,11 @@ El reporte final escribe explícitamente las tres métricas para cada estado.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 for s in PICK PLACE; do ros2 run ur5_pick_place kinematics_report --ros-args -p state:=$s; done
-grep -H -E 'Error de posicion|Error de orientacion|Error maximo de la matriz' resultados/kinematics_{PICK,PLACE}.txt
+grep -H -E 'Error de posicion|Error de orientacion|Error maximo de la matriz' resultados/ros2/kinematics_{PICK,PLACE}.txt
 ```
 #### 5. Resultado esperado
 Errores finitos y pequeños para ambas poses.
@@ -892,7 +892,7 @@ La versión final crea cuatro objetos: `pick_surface`, `place_surface`, `workpie
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
@@ -902,7 +902,7 @@ ros2 run ur5_pick_place planning_scene_setup
 RViz debe mostrar dos superficies, la pieza y el obstáculo; `clear:=true` debe retirarlos.
 
 #### 6. Evidencia generada
-Captura RViz y log `resultados/planning_scene.txt` que se genere localmente.
+Captura RViz y log `resultados/logs/planning_scene.txt` que se genere localmente.
 
 #### 7. Cómo explicarlo en la sustentación
 “La PlanningScene es el mundo geométrico contra el cual MoveIt comprueba colisiones.”
@@ -924,7 +924,7 @@ Se usan dos superficies pequeñas de 0.34×0.34×0.10 m, una en pick y una en pl
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
@@ -956,7 +956,7 @@ Incluir la pieza manipulada y permitir attach/detach.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
@@ -988,7 +988,7 @@ Incluir obstáculo fijo que obligue evasión.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
@@ -1020,17 +1020,17 @@ Movimiento libre con evasión, RRTConnect/RRTstar, ≥10 intentos por planeador,
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 Se deben imprimir 20 filas y una única línea de ganador antes de la ejecución. Si no hay válido, no se mueve.
 
 #### 6. Evidencia generada
-`resultados/trayectorias_4A_home_pre_pick.csv` final. Hay un CSV histórico real de 20 candidatos.
+`resultados/ros2/trayectorias_4A_home_pre_pick.csv` final. Hay un CSV histórico real de 20 candidatos.
 
 #### 7. Cómo explicarlo en la sustentación
 “No ejecuto mientras experimento: primero comparo todos bajo la misma condición inicial y luego ejecuto uno.”
@@ -1052,11 +1052,11 @@ Está declarado como `geometric::RRTConnect` y se generan 10 intentos.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 Filas con `RRTConnectkConfigDefault`.
@@ -1084,11 +1084,11 @@ Está declarado como `geometric::RRTstar` y se generan 10 intentos.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 Filas con `RRTstarkConfigDefault`.
@@ -1116,11 +1116,11 @@ Ejecutar al menos 10 intentos por planeador sin mover entre intentos.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 20 filas exactas en el CSV.
@@ -1148,11 +1148,11 @@ Guardar tiempo, duración, puntos, longitud, movimiento por articulación y suav
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 Cabecera completa y valores finitos.
@@ -1180,11 +1180,11 @@ El planificador verifica colisiones; el código verifica datos finitos, bounds, 
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 Las inválidas deben mostrar `valida=no` y el motivo.
@@ -1212,11 +1212,11 @@ Desempatar por longitud, puntos, duración, t_plan y suavidad.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/terminal_4A.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4A 2>&1 | tee resultados/logs/terminal_4A.txt
 ```
 #### 5. Resultado esperado
 El ganador debe coincidir con ordenar el CSV por esos cinco campos.
@@ -1244,17 +1244,17 @@ La versión final usa cuatro waypoints intermedios + meta. Si `computeCartesianP
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B 2>&1 | tee resultados/terminal_4B.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B 2>&1 | tee resultados/logs/terminal_4B.txt
 ```
 #### 5. Resultado esperado
 Debe alcanzar 100 % o detenerse; después debe comparar perfiles y ejecutar uno. Sólo entonces debe aparecer el mensaje de pieza adjuntada.
 
 #### 6. Evidencia generada
-`resultados/perfiles_4B_pre_pick_pick.csv`, `perfil_seleccionado_4B_pre_pick_pick.txt`, `terminal_4B.txt`.
+`resultados/ros2/perfiles_4B_pre_pick_pick.csv`, `perfil_seleccionado_4B_pre_pick_pick.txt`, `terminal_4B.txt`.
 
 #### 7. Cómo explicarlo en la sustentación
 “La trayectoria geométrica y su ley temporal son problemas distintos: primero fijo la recta, luego comparo cómo recorrerla.”
@@ -1276,15 +1276,15 @@ El C++ genera exactamente cuatro intermedios a 20/40/60/80 % y añade la meta; e
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 python3 src/ur5_pick_place/scripts/trajectory_profiles.py --output-dir resultados
-cat resultados/resumen_perfiles.csv
+cat resultados/tablas/resumen_perfiles.csv
 ```
 #### 5. Resultado esperado
 Los CSV `waypoints_4B_rojo_*` contienen inicio, cuatro intermedios y final.
 
 #### 6. Evidencia generada
-`resultados/resumen_perfiles.csv` y CSV/PNG del perfil.
+`resultados/tablas/resumen_perfiles.csv` y CSV/PNG del perfil.
 
 #### 7. Cómo explicarlo en la sustentación
 “Cuatro intermedios discretizan la línea; `computeCartesianPath` interpola el movimiento cartesiano.”
@@ -1306,15 +1306,15 @@ La ley cúbica es `3τ²-2τ³`; el script final midió T=2.5716 s, vmax≈0.192
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 python3 src/ur5_pick_place/scripts/trajectory_profiles.py --output-dir resultados
-cat resultados/resumen_perfiles.csv
+cat resultados/tablas/resumen_perfiles.csv
 ```
 #### 5. Resultado esperado
 El resumen debe marcar `cumple_limites=True`.
 
 #### 6. Evidencia generada
-`resultados/resumen_perfiles.csv` y CSV/PNG del perfil.
+`resultados/tablas/resumen_perfiles.csv` y CSV/PNG del perfil.
 
 #### 7. Cómo explicarlo en la sustentación
 “El cúbico impone velocidad cero en extremos pero no aceleración cero.”
@@ -1336,15 +1336,15 @@ La ley `10τ³-15τ⁴+6τ⁵` dio T=3.09684 s, vmax≈0.19980 m/s, amax≈0.198
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 python3 src/ur5_pick_place/scripts/trajectory_profiles.py --output-dir resultados
-cat resultados/resumen_perfiles.csv
+cat resultados/tablas/resumen_perfiles.csv
 ```
 #### 5. Resultado esperado
 Debe cumplir límites y mostrar aceleración más suave en los extremos.
 
 #### 6. Evidencia generada
-`resultados/resumen_perfiles.csv` y CSV/PNG del perfil.
+`resultados/tablas/resumen_perfiles.csv` y CSV/PNG del perfil.
 
 #### 7. Cómo explicarlo en la sustentación
 “El quíntico permite velocidad y aceleración cero en los bordes, por eso suele ser más suave.”
@@ -1366,17 +1366,17 @@ Script Python y C++ principal.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B 2>&1 | tee resultados/terminal_4B.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B 2>&1 | tee resultados/logs/terminal_4B.txt
 ```
 #### 5. Resultado esperado
 El Python final marca ambos perfiles como válidos; el C++ final debe regenerar métricas articulares en ROS.
 
 #### 6. Evidencia generada
-`resultados/perfiles_4B_pre_pick_pick.csv` y terminal 4B cuando se ejecute ROS.
+`resultados/ros2/perfiles_4B_pre_pick_pick.csv` y terminal 4B cuando se ejecute ROS.
 
 #### 7. Cómo explicarlo en la sustentación
 “Primero cumplo el límite TCP del enunciado y además compruebo que la parametrización no viole joints.”
@@ -1398,17 +1398,17 @@ El Python de referencia midió menor variación de aceleración para el quíntic
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B 2>&1 | tee resultados/terminal_4B.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4B 2>&1 | tee resultados/logs/terminal_4B.txt
 ```
 #### 5. Resultado esperado
 `perfil_seleccionado_4B_pre_pick_pick.txt` debe indicar el perfil real elegido por la ejecución ROS final.
 
 #### 6. Evidencia generada
-`resultados/perfiles_4B_pre_pick_pick.csv` y terminal 4B cuando se ejecute ROS.
+`resultados/ros2/perfiles_4B_pre_pick_pick.csv` y terminal 4B cuando se ejecute ROS.
 
 #### 7. Cómo explicarlo en la sustentación
 “El Python orienta, pero la decisión ejecutada se toma con la trayectoria articular que MoveIt realmente generó.”
@@ -1430,17 +1430,17 @@ La última revisión eliminó un retiro cartesiano extra: 4C ahora empieza realm
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/terminal_4C.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/logs/terminal_4C.txt
 ```
 #### 5. Resultado esperado
 Tras 4B la pieza debe estar adjunta; luego deben generarse 20 candidatos 4C y ejecutarse sólo el ganador.
 
 #### 6. Evidencia generada
-`resultados/trayectorias_4C_pick_pre_place.csv`, `terminal_4C.txt`.
+`resultados/ros2/trayectorias_4C_pick_pre_place.csv`, `terminal_4C.txt`.
 
 #### 7. Cómo explicarlo en la sustentación
 “La pieza forma parte del robot para la comprobación de colisiones mientras atraviesa 4C.”
@@ -1462,11 +1462,11 @@ Adjuntar sólo después de alcanzar PICK.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/terminal_4C.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/logs/terminal_4C.txt
 ```
 #### 5. Resultado esperado
 El log debe demostrar el orden: attach -> candidatos -> ganador -> execute.
@@ -1494,11 +1494,11 @@ Se llama al mismo generador de 20 candidatos con la pieza ya adjunta.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/terminal_4C.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/logs/terminal_4C.txt
 ```
 #### 5. Resultado esperado
 El log debe demostrar el orden: attach -> candidatos -> ganador -> execute.
@@ -1526,11 +1526,11 @@ Se reutiliza `calcular_metricas`, `validar` y el CSV por tramo.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/terminal_4C.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/logs/terminal_4C.txt
 ```
 #### 5. Resultado esperado
 El log debe demostrar el orden: attach -> candidatos -> ganador -> execute.
@@ -1558,11 +1558,11 @@ La función guarda todo, selecciona y sólo al final llama `execute(mejor->plan)
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/terminal_4C.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4C 2>&1 | tee resultados/logs/terminal_4C.txt
 ```
 #### 5. Resultado esperado
 El log debe demostrar el orden: attach -> candidatos -> ganador -> execute.
@@ -1590,11 +1590,11 @@ Aproximación cartesiana recta, usar el perfil elegido en 4B, verificar límites
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/terminal_4D.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/logs/terminal_4D.txt
 ```
 #### 5. Resultado esperado
 Debe indicar que ejecuta exactamente el mismo nombre de perfil elegido en 4B y después liberar la pieza.
@@ -1622,11 +1622,11 @@ Se reutiliza `computeCartesianPath` con cuatro intermedios y meta.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/terminal_4D.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/logs/terminal_4D.txt
 ```
 #### 5. Resultado esperado
 El log debe terminar con “pieza liberada después de alcanzar PLACE”.
@@ -1654,11 +1654,11 @@ El Python final verificó ambos perfiles bajo límites azules; C++ valida el per
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/terminal_4D.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/logs/terminal_4D.txt
 ```
 #### 5. Resultado esperado
 El log debe terminar con “pieza liberada después de alcanzar PLACE”.
@@ -1686,11 +1686,11 @@ Liberar únicamente al alcanzar PLACE.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/terminal_4D.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=4D 2>&1 | tee resultados/logs/terminal_4D.txt
 ```
 #### 5. Resultado esperado
 El log debe terminar con “pieza liberada después de alcanzar PLACE”.
@@ -1718,18 +1718,18 @@ La secuencia final implementa ese orden y detiene el ciclo ante cualquier fallo,
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL 2>&1 | tee resultados/ciclo_terminal_final.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL 2>&1 | tee resultados/logs/ciclo_terminal_final.txt
 ```
 #### 5. Resultado esperado
 RViz debe mostrar el ciclo completo sin colisión y la terminal debe terminar con `Ciclo pick-and-place completado`.
 
 #### 6. Evidencia generada
-`resultados/ciclo_terminal_final.txt`, CSV de 4A/4C, perfiles 4B/4D y captura/video RViz.
+`resultados/logs/ciclo_terminal_final.txt`, CSV de 4A/4C, perfiles 4B/4D y captura/video RViz.
 
 #### 7. Cómo explicarlo en la sustentación
 “Cada etapa sólo habilita la siguiente si terminó correctamente; así una falla no se propaga.”
@@ -1740,7 +1740,7 @@ RViz debe mostrar el ciclo completo sin colisión y la terminal debe terminar co
 
 ### Tabla de candidatos reales de 4A (ejecución final, 2026-09-16)
 
-Tabla real de `resultados/trayectorias_4A_home_pre_pick.csv`, generada por la última de tres corridas reproducibles del ciclo FULL en ROS 2 Jazzy. Los 20 candidatos fueron válidos (colisión y límites comprobados por MoveIt) y ganó `RRTstarkConfigDefault`, intento 1, por menor longitud articular.
+Tabla real de `resultados/ros2/trayectorias_4A_home_pre_pick.csv`, generada por la última de tres corridas reproducibles del ciclo FULL en ROS 2 Jazzy. Los 20 candidatos fueron válidos (colisión y límites comprobados por MoveIt) y ganó `RRTstarkConfigDefault`, intento 1, por menor longitud articular.
 
 | Tramo | Planeador | Intento | Válida | Motivo | Tiempo de planificación | Longitud articular | Puntos | Duración | Suavidad |
 |---|---|---:|---|---|---:|---:|---:|---:|---:|
@@ -1786,7 +1786,7 @@ Calcular J 6x6 manualmente con DH.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME
@@ -1817,7 +1817,7 @@ El mismo estado articular se pasa a `getJacobian()` para comparar matrices sobre
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME
@@ -1848,7 +1848,7 @@ El ejecutable imprime y exporta la matriz de error completa.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PICK
@@ -1879,7 +1879,7 @@ Se calculan máximo absoluto y norma de Frobenius.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=PLACE
@@ -1910,7 +1910,7 @@ El ejecutable multiplica ambos Jacobianos por qdot y muestra `[vx vy vz wx wy wz
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=HOME
@@ -1941,7 +1941,7 @@ Nuevo estado `4B` resuelve la pose media del descenso y, dada `tcp_speed`, calcu
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=4B -p tcp_speed:=0.1998002
@@ -1950,7 +1950,7 @@ ros2 run ur5_pick_place kinematics_report --ros-args -p state:=4B -p tcp_speed:=
 Debe generar `kinematics_4B.*`, mostrar xdot objetivo y error cartesiano. Ajustar `tcp_speed` al máximo observado del perfil realmente seleccionado.
 
 #### 6. Evidencia generada
-`resultados/kinematics_4B.*`.
+`resultados/ros2/kinematics_4B.*`.
 
 #### 7. Cómo explicarlo en la sustentación
 “Uso una configuración representativa del tramo y resuelvo las velocidades articulares necesarias para la velocidad TCP.”
@@ -1972,7 +1972,7 @@ Nuevo estado `4D` hace la misma comprobación en Y positivo.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place kinematics_report --ros-args -p state:=4D -p tcp_speed:=0.06333146
@@ -1981,7 +1981,7 @@ ros2 run ur5_pick_place kinematics_report --ros-args -p state:=4D -p tcp_speed:=
 Debe generar `kinematics_4D.*` y comprobar límites. Si 4B selecciona cúbico, usar el máximo correspondiente del resumen Python.
 
 #### 6. Evidencia generada
-`resultados/kinematics_4D.*`.
+`resultados/ros2/kinematics_4D.*`.
 
 #### 7. Cómo explicarlo en la sustentación
 “Repito la verificación porque el Jacobiano cambia con la configuración aunque la dirección cartesiana sea similar.”
@@ -2003,7 +2003,7 @@ Tener un ejecutable independiente consultable por estado.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 for s in HOME PICK PLACE CURRENT; do
@@ -2014,7 +2014,7 @@ done
 Cada estado debe crear su par TXT/CSV. `CURRENT` requiere joint_states activos.
 
 #### 6. Evidencia generada
-`resultados/kinematics_HOME.*`, `PICK.*`, `PLACE.*`, `CURRENT.*`.
+`resultados/ros2/kinematics_HOME.*`, `PICK.*`, `PLACE.*`, `CURRENT.*`.
 
 #### 7. Cómo explicarlo en la sustentación
 “Un único ejecutable reduce duplicación y me deja demostrar cualquier configuración durante preguntas.”
@@ -2035,11 +2035,11 @@ Relacionar cada requisito con archivo y comando que lo genera.
 `resultados/` contiene perfiles finales ejecutados y una subcarpeta histórica claramente separada. Los resultados ROS finales se crean únicamente al ejecutar los comandos de esta guía.
 
 #### 3. Archivos relacionados
-`resultados/`, `resultados/historico_ejecucion_2026-09-15/`.
+`resultados/`, `resultados/historico/ejecucion_2026-09-15/`.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 find resultados -maxdepth 2 -type f -printf '%p %s bytes\n' | sort
 ```
 #### 5. Resultado esperado
@@ -2057,23 +2057,23 @@ Tabla siguiente.
 
 | Evidencia | Archivo | Numeral que demuestra | Comando para generarla |
 |---|---|---|---|
-| Xacro/URDF | `resultados/check_urdf.txt` | 1.2 | `xacro ... && check_urdf ...` |
-| Árbol TF | `resultados/frames.pdf` | 2.4 | `ros2 run tf2_tools view_frames` |
-| DH/FK HOME | `resultados/kinematics_HOME.txt/.csv` | 2 | `kinematics_report state:=HOME` |
-| IK PICK | `resultados/kinematics_PICK.txt/.csv` | 3.1–3.4 | `kinematics_report state:=PICK` |
-| IK PLACE | `resultados/kinematics_PLACE.txt/.csv` | 3.5–3.9 | `kinematics_report state:=PLACE` |
-| 20 candidatos 4A | `resultados/trayectorias_4A_home_pre_pick.csv` | 4A | `pick_place_sequence hasta_tramo:=4A` |
-| 20 candidatos 4C | `resultados/trayectorias_4C_pick_pre_place.csv` | 4C | `pick_place_sequence hasta_tramo:=4C` |
-| Perfiles escalares | `resultados/resumen_perfiles.csv` | 4B/4D | `trajectory_profiles.py` |
-| Gráfica 4B | `resultados/comparacion_perfiles_4B_rojo.png` | 4B | `trajectory_profiles.py` |
-| Gráfica 4D | `resultados/comparacion_perfiles_4D_azul.png` | 4D | `trajectory_profiles.py` |
-| Perfil articular 4B | `resultados/perfiles_4B_pre_pick_pick.csv` | 4B | secuencia ROS |
-| Perfil elegido | `resultados/perfil_seleccionado_4B_pre_pick_pick.txt` | 4B.5/4D | secuencia ROS |
-| Jacobiano 4B | `resultados/kinematics_4B.*` | 5.6 | `kinematics_report state:=4B` |
-| Jacobiano 4D | `resultados/kinematics_4D.*` | 5.7 | `kinematics_report state:=4D` |
-| Ciclo completo (3 corridas reales) | `resultados/ciclo_terminal_final.txt`, `_run1/_run2/_run3.txt` | 4E | secuencia FULL |
-| Captura RViz | `resultados/rviz_captura.png` | 1.9/4E | `xwd` sobre la ventana de RViz2 |
-| Auditoría estática | `resultados/verificacion_estatica.txt` | proyecto | `python3 scripts/verificar_workspace.py` |
+| Xacro/URDF | `resultados/ros2/check_urdf.txt` | 1.2 | `xacro ... && check_urdf ...` |
+| Árbol TF | `resultados/imagenes/frames.pdf` | 2.4 | `ros2 run tf2_tools view_frames` |
+| DH/FK HOME | `resultados/ros2/kinematics_HOME.txt/.csv` | 2 | `kinematics_report state:=HOME` |
+| IK PICK | `resultados/ros2/kinematics_PICK.txt/.csv` | 3.1–3.4 | `kinematics_report state:=PICK` |
+| IK PLACE | `resultados/ros2/kinematics_PLACE.txt/.csv` | 3.5–3.9 | `kinematics_report state:=PLACE` |
+| 20 candidatos 4A | `resultados/ros2/trayectorias_4A_home_pre_pick.csv` | 4A | `pick_place_sequence hasta_tramo:=4A` |
+| 20 candidatos 4C | `resultados/ros2/trayectorias_4C_pick_pre_place.csv` | 4C | `pick_place_sequence hasta_tramo:=4C` |
+| Perfiles escalares | `resultados/tablas/resumen_perfiles.csv` | 4B/4D | `trajectory_profiles.py` |
+| Gráfica 4B | `resultados/imagenes/comparacion_perfiles_4B_rojo.png` | 4B | `trajectory_profiles.py` |
+| Gráfica 4D | `resultados/imagenes/comparacion_perfiles_4D_azul.png` | 4D | `trajectory_profiles.py` |
+| Perfil articular 4B | `resultados/ros2/perfiles_4B_pre_pick_pick.csv` | 4B | secuencia ROS |
+| Perfil elegido | `resultados/ros2/perfil_seleccionado_4B_pre_pick_pick.txt` | 4B.5/4D | secuencia ROS |
+| Jacobiano 4B | `resultados/ros2/kinematics_4B.*` | 5.6 | `kinematics_report state:=4B` |
+| Jacobiano 4D | `resultados/ros2/kinematics_4D.*` | 5.7 | `kinematics_report state:=4D` |
+| Ciclo completo (3 corridas reales) | `resultados/logs/ciclo_terminal_final.txt`, `_run1/_run2/_run3.txt` | 4E | secuencia FULL |
+| Captura RViz | `resultados/imagenes/rviz_captura.png` | 1.9/4E | `xwd` sobre la ventana de RViz2 |
+| Auditoría estática | `resultados/ros2/verificacion_estatica.txt` | proyecto | `python3 scripts/verificar_workspace.py` |
 
 
 ## 7. Ejecución completa desde cero
@@ -2092,7 +2092,7 @@ Se usa el `demo.launch.py` propio.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 rm -rf build install log
 colcon build --symlink-install
@@ -2125,12 +2125,12 @@ Ejecutables `planning_scene_setup`, `pick_place_sequence`.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
 ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL 2>&1 | tee resultados/ciclo_terminal_final.txt
+ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL 2>&1 | tee resultados/logs/ciclo_terminal_final.txt
 ```
 #### 5. Resultado esperado
 Debe completar o detenerse con un motivo explícito. No continuar manualmente si falla una etapa.
@@ -2158,7 +2158,7 @@ Los comandos son independientes y sólo leen el estado/modelo.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 run tf2_ros tf2_echo base_link tool0
@@ -2191,9 +2191,9 @@ El script es independiente de ROS y fue ejecutado durante esta revisión final.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 python3 src/ur5_pick_place/scripts/trajectory_profiles.py --output-dir resultados
-cat resultados/resumen_perfiles.csv
+cat resultados/tablas/resumen_perfiles.csv
 ```
 #### 5. Resultado esperado
 Debe regenerar 4 CSV de perfil, 4 CSV de waypoints, 2 PNG y el resumen.
@@ -2305,7 +2305,7 @@ Workspace completo.
 
 #### 4. Comandos para demostrarlo
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 node list
@@ -2335,7 +2335,7 @@ Guardar terminal cuando un error sea relevante para la sustentación.
 **Ausencia de trayectorias válidas.** Abra el CSV y lea `motivo`; no ejecute movimiento. Revise colisión, límites o tolerancias según el motivo concreto.
 **RViz no abre.** Verifique DISPLAY/Wayland/X11; en Linux puede probar `QT_QPA_PLATFORM=xcb`.
 **Frame TF inexistente.** `ros2 run tf2_ros tf2_echo base_link tool0`; revise nombres del URDF y que `robot_state_publisher` esté vivo.
-**CSV no generado.** Compruebe permisos/ruta `/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados`, que el nodo llegó al punto de guardado y que `resultados/` existe.
+**CSV no generado.** Compruebe permisos/ruta `<ruta_del_repositorio>/resultados`, que el nodo llegó al punto de guardado y que `resultados/` existe.
 
 ## Resumen de resultados medidos disponibles al cerrar esta revisión
 
@@ -2360,6 +2360,6 @@ En el modelo escalar Python, **el quíntico es más suave en 4B** según la vari
 - 4B real: `computeCartesianPath ≥ 99.9 %`; perfil cúbico descartado por violar aceleración TCP (`0.304 m/s² > 0.3`), perfil quíntico válido y ejecutado (`vmax_tcp≈0.199 m/s`, `amax_tcp≈0.199 m/s²`); pieza adjuntada tras la ejecución.
 - 4C real: 20 candidatos con la pieza adjunta (10 válidos RRTConnect, 1 válido RRTstar en la corrida citada); ganador seleccionado y ejecutado por menor longitud articular.
 - 4D real: perfil quíntico reutilizado obligatoriamente desde 4B (`4D_pre_place_place/quintico`, `T≈9.76 s`, `amax_tcp≈0.02 m/s²`); pieza liberada tras alcanzar PLACE.
-- Ciclo FULL: ejecutado 3 veces de forma reproducible (`resultados/ciclo_terminal_final_run1/2/3.txt`), terminando siempre en "pieza liberada despues de alcanzar PLACE".
+- Ciclo FULL: ejecutado 3 veces de forma reproducible (`resultados/logs/reproducibilidad/ciclo_terminal_final_run1/2/3.txt`), terminando siempre en "pieza liberada despues de alcanzar PLACE".
 
-Estos datos están en `resultados/` (no en la carpeta histórica). La carpeta `resultados/historico_ejecucion_2026-09-15/` se conserva sólo como referencia de una ejecución anterior con una PlanningScene distinta.
+Estos datos están en `resultados/` (no en la carpeta histórica). La carpeta `resultados/historico/ejecucion_2026-09-15/` se conserva sólo como referencia de una ejecución anterior con una PlanningScene distinta.

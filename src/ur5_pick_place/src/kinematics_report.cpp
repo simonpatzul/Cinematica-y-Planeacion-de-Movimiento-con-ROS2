@@ -170,8 +170,7 @@ int main(int argc, char * argv[])
   if (!node->has_parameter("state"))
     node->declare_parameter<std::string>("state", "CURRENT");
   if (!node->has_parameter("results_dir"))
-    node->declare_parameter<std::string>(
-      "results_dir", "/home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws/resultados");
+    node->declare_parameter<std::string>("results_dir", "resultados");
   if (!node->has_parameter("qdot"))
     node->declare_parameter<std::vector<double>>(
       "qdot", std::vector<double>{0.05, 0.05, 0.05, 0.05, 0.05, 0.05});

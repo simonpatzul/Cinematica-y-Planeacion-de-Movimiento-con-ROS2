@@ -1,9 +1,0 @@
-tramo=4D_pre_place_place
-perfil=quintico
-duracion_s=9.761137285
-variacion_aceleracion_articular=0.4916294954
-max_velocidad_articular=0.1470181525
-max_aceleracion_articular=0.0605805402
-max_velocidad_tcp_m_s=0.06308451103
-max_aceleracion_tcp_m_s2=0.01999888336
-criterio=menor variacion de aceleracion; desempate menor duracion

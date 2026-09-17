@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ast
 import csv
+import os
 import re
 import sys
 import xml.etree.ElementTree as ET
@@ -34,6 +35,10 @@ def text(rel: str) -> str:
 required_files = [
     "README.md",
     "GUIA_COMPLETA_TALLER.md",
+    "EVIDENCIA_COMPLETA_TALLER.md",
+    "COMANDOS_RAPIDOS.md",
+    "LIMPIEZA_ENTREGA.md",
+    "taller.sh",
     "src/ur5_description/urdf/ur5.urdf.xacro",
     "src/ur5_moveit_config/config/ur5.srdf",
     "src/ur5_moveit_config/config/kinematics.yaml",
@@ -45,7 +50,9 @@ required_files = [
     "src/ur5_pick_place/src/kinematics_report.cpp",
     "src/ur5_pick_place/scripts/trajectory_profiles.py",
     "matlab/UR5_DH_VALIDACION.m",
-    "resultados/resumen_perfiles.csv",
+    "resultados/tablas/resumen_perfiles.csv",
+    "kuka_kr6_matlab/Matlab_TallerIK.m",
+    "kuka_kr6_matlab/README.md",
 ]
 for rel in required_files:
     p = ROOT / rel
@@ -195,17 +202,45 @@ check(guide.count("**1.") >= 1 and len(re.findall(r"^\*\*\d+\.", guide, flags=re
       "guía contiene al menos 15 preguntas")
 
 # Final Python profile outputs are non-empty and all rows comply.
-summary = ROOT / "resultados/resumen_perfiles.csv"
+summary = ROOT / "resultados/tablas/resumen_perfiles.csv"
 if summary.exists():
     rows = list(csv.DictReader(summary.open(encoding="utf-8")))
     check(len(rows) == 4, "resumen de perfiles contiene 4 filas")
     check(all(r.get("cumple_limites") == "True" for r in rows), "los 4 perfiles Python cumplen límites")
 
 # Historical evidence is clearly separated.
-hist = ROOT / "resultados/historico_ejecucion_2026-09-15"
+hist = ROOT / "resultados/historico/ejecucion_2026-09-15"
 check((hist / "LEEME.txt").exists(), "historial ROS tiene aviso de trazabilidad")
 check((hist / "ciclo_terminal.txt").exists(), "historial conserva terminal real")
 check((hist / "trayectorias_4A_home_pre_pick.csv").exists(), "historial conserva candidatos 4A reales")
+
+# KUKA KR-6 (entrega independiente en MATLAB).
+kuka = ROOT / "kuka_kr6_matlab/Matlab_TallerIK.m"
+if kuka.exists():
+    kuka_txt = kuka.read_text(encoding="utf-8")
+    for token, label in [
+        ("num_configuraciones = 8", "KUKA: 8 configuraciones por punto"),
+        ("SlnSet = zeros(num_puntos, 6, num_configuraciones)", "KUKA: SlnSet n x 6 x 8"),
+        ("SlnSetVer", "KUKA: filtrado SlnSetVer"),
+        ("isreal(capa_actual)", "KUKA: filtrado de valores imaginarios"),
+        ("~isnan(capa_actual)", "KUKA: filtrado de NaN"),
+        ("calcular_jacobiano_completo", "KUKA: cálculo de Jacobiano"),
+        ("calcular_FK_completa", "KUKA: cinemática directa"),
+        ("dibujar_frame", "KUKA: animación/visualización de frames"),
+    ]:
+        check(token in kuka_txt, label)
+else:
+    check(False, "kuka_kr6_matlab/Matlab_TallerIK.m presente")
+
+# taller.sh es ejecutable y define todos los subcomandos pedidos.
+taller = ROOT / "taller.sh"
+if taller.exists():
+    check(os.access(taller, os.X_OK), "taller.sh es ejecutable")
+    taller_txt = taller.read_text(encoding="utf-8")
+    for sub in ["ayuda", "preparar", "compilar", "modelo", "home", "ik", "escena",
+                "4a", "4b", "4c", "4d", "jacobiano", "ciclo", "matlab", "verificar", "todo"]:
+        check(re.search(rf"(?:^|\s|\|){re.escape(sub)}(?:\||\))", taller_txt, re.M) is not None,
+              f"taller.sh define el comando: {sub}")
 
 print("VERIFICACION ESTATICA DEL WORKSPACE UR5")
 print(f"OK: {len(OK)}")

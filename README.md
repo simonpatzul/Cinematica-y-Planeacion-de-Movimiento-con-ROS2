@@ -1,18 +1,25 @@
-# Taller UR5 — ROS 2 Jazzy + MoveIt 2
+# Taller de Cinemática y Planeación de Movimiento
 
-Workspace del taller de **Cinemática y Planeación de Movimiento** para un UR5 clásico. Incluye descripción URDF/Xacro, configuración propia de MoveIt 2, PlanningScene, comparación RRTConnect/RRT*, ciclo pick-and-place, perfiles cúbico/quíntico, validación DH e informe de Jacobianos.
+UR5 — ROS 2 Jazzy + MoveIt 2
+
+## Descripción
+
+Configuración propia de MoveIt 2 para un UR5 clásico construida desde su URDF/Xacro: PlanningScene, comparación RRTConnect/RRTstar, ciclo pick-and-place con perfiles cúbico/quíntico, validación DH y Jacobiano. Incluye además, como entrega independiente, el análisis cinemático del KUKA KR-6 en MATLAB (`kuka_kr6_matlab/`).
 
 ## Requisitos
 
-- Ubuntu con ROS 2 Jazzy.
-- MoveIt 2, RViz 2, ros2_control, `tf2_tools`, `xacro` y `check_urdf`.
+- Ubuntu con ROS 2 Jazzy, MoveIt 2, RViz 2, ros2_control, `xacro`, `check_urdf`.
 - Python 3 con NumPy y Matplotlib.
-- MATLAB sólo para la comprobación DH académica; `matlab/UR5_DH_VALIDACION.m` no necesita Robotics System Toolbox.
+- MATLAB u Octave (opcional, sin Robotics System Toolbox).
+
+## Estructura
+
+Ver el árbol completo y la explicación de cada carpeta en [EVIDENCIA_COMPLETA_TALLER.md](EVIDENCIA_COMPLETA_TALLER.md#2-estructura-del-proyecto).
 
 ## Compilación
 
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
+cd <ruta_del_repositorio>
 source /opt/ros/jazzy/setup.bash
 rosdep install --from-paths src --ignore-src -r -y
 rm -rf build install log
@@ -22,31 +29,23 @@ source install/setup.bash
 
 ## Ejecución rápida
 
-**Terminal 1:**
-
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
-source /opt/ros/jazzy/setup.bash
-source install/setup.bash
-QT_QPA_PLATFORM=xcb ros2 launch ur5_moveit_config demo.launch.py
+./taller.sh ayuda
 ```
 
-Espere a que `move_group`, `ur5_arm_controller` y `joint_state_broadcaster` estén activos antes de ejecutar movimientos.
-
-**Terminal 2 — ciclo completo:**
+Para correr el taller completo, un comando por numeral:
 
 ```bash
-cd /home/simon/Downloads/ur5_taller_ws_FINAL/ur5_taller_ws
-source /opt/ros/jazzy/setup.bash
-source install/setup.bash
-ros2 run ur5_pick_place planning_scene_setup --ros-args -p clear:=true
-ros2 run ur5_pick_place planning_scene_setup
-ros2 run ur5_pick_place pick_place_sequence --ros-args -p hasta_tramo:=FULL \
-  2>&1 | tee resultados/ciclo_terminal_final.txt
+./taller.sh todo
 ```
 
-## Documentación y resultados
+Cada comando (`modelo`, `home`, `ik`, `escena`, `4a`, `4b`, `4c`, `4d`, `jacobiano`, `ciclo`, `matlab`, `verificar`) ejecuta solo esa prueba, muestra resultados numéricos reales y dice dónde queda la evidencia. Ver [COMANDOS_RAPIDOS.md](COMANDOS_RAPIDOS.md) para la lista completa.
 
-La explicación completa, comandos por numeral, evidencia, solución de errores y guion de sustentación están en [GUIA_COMPLETA_TALLER.md](GUIA_COMPLETA_TALLER.md).
+## Documentación
 
-Los resultados se guardan en `resultados/`. La carpeta `resultados/historico_ejecucion_2026-09-15/` contiene evidencia real anterior a la última corrección y está marcada como histórica para no confundirla con resultados finales.
+- [EVIDENCIA_COMPLETA_TALLER.md](EVIDENCIA_COMPLETA_TALLER.md) — evidencia principal, numeral por numeral.
+- [COMANDOS_RAPIDOS.md](COMANDOS_RAPIDOS.md) — comandos para la sustentación.
+- [GUIA_COMPLETA_TALLER.md](GUIA_COMPLETA_TALLER.md) — guía extendida con el detalle de cada comando ROS2.
+- [Entrega KUKA KR-6](kuka_kr6_matlab/README.md) — taller independiente de IK/FK en MATLAB.
+
+Los resultados se guardan en `resultados/` (separados en `ros2/`, `logs/`, `tablas/`, `imagenes/`, `matlab/` e `historico/`). Ver [LIMPIEZA_ENTREGA.md](LIMPIEZA_ENTREGA.md) para el detalle de la organización.
