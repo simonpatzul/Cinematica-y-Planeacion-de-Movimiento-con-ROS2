@@ -8,7 +8,7 @@ Configuración propia de MoveIt 2 para un UR5 clásico construida desde su URDF/
 
 https://youtu.be/YXWZHgybhms
 
-https://youtu.be/fwpsnZm2IOc
+https://youtu.be/jO6yf_7fa2E
 
 ## Requisitos
 
